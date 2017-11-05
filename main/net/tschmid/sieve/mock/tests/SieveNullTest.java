@@ -7,21 +7,21 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+import net.tschmid.sieve.mock.server.SieveMockServer;
 
-public class SieveScramSha1Test implements SieveTestable {
-    
+public class SieveNullTest implements SieveTestable {
+
+    private String name;
+
+    public SieveNullTest(String name) {
+	this.name = name;
+    }
+
+    @Override
     public void doTest(SieveMockServer mock) throws Exception {
-	
-	mock
-	  .doInit("SCRAM-SHA-1")
-	  .doStartTLS("SCRAM-SHA-1")
-	  .deSaslScramSha1()
-	  .doListScript();
-
-	System.out.println("SCRAM-SHA-1 Test passed...");
+	System.out.println("Unknown test "+this.name);
     }
 
 }

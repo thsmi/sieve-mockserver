@@ -7,12 +7,12 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.server;
+package net.tschmid.sieve.mock.server;
 
-import static org.mozdev.sieve.server.SieveTestFlagsEnum.*;
-import static org.mozdev.sieve.verifier.SieveAssert.assertTrue;
+import static net.tschmid.sieve.mock.server.SieveTestFlagsEnum.*;
+import static net.tschmid.sieve.mock.verifier.SieveAssert.assertTrue;
 
-import org.mozdev.sieve.exceptions.SieveTestException;
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
 
 public class SieveMockServer {
 

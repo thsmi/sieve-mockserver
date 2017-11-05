@@ -1,6 +1,6 @@
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+import net.tschmid.sieve.mock.server.SieveMockServer;
 
 public class SieveUnauthenticatedReferalTest implements SieveTestable{
 

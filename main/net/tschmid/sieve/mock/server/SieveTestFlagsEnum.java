@@ -7,9 +7,9 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.server;
+package net.tschmid.sieve.mock.server;
 
-import org.mozdev.sieve.exceptions.SieveConfigurationException;
+import net.tschmid.sieve.mock.exceptions.SieveConfigurationException;
 
 public enum SieveTestFlagsEnum {
     SERVER_SIGNATURE_BROKEN, 

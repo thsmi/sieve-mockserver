@@ -7,22 +7,25 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+import net.tschmid.sieve.mock.server.SieveMockServer;
 
-public class SieveLoginTest implements SieveTestable {
+public class SievePlainTest implements SieveTestable {
 
     @Override
     public void doTest(SieveMockServer mock) throws Exception {
 	
+	// start the test
 	mock
-	.doInit("LOGIN")
-	.doStartTLS("LOGIN")
-	.doSaslLogin()
-	.doListScript();
+	  .doInit("PLAIN")
+	  .doStartTLS("PLAIN")
+	  .doSaslPlain()
+	  .doListScript();
 	
-	System.out.println("Login Test passed...");
+	System.out.println("SASL Plain Test passed...");
+	 
+	
     }
 
 }

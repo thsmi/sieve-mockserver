@@ -7,9 +7,9 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+import net.tschmid.sieve.mock.server.SieveMockServer;
 
 // test a referral after a successful authentication.
 public class SieveAuthenticatedReferalTest implements SieveTestable {

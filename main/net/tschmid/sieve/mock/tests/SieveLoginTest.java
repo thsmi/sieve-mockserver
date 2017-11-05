@@ -7,20 +7,22 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+import net.tschmid.sieve.mock.server.SieveMockServer;
 
-public class SieveAnonymousTest implements SieveTestable {
+public class SieveLoginTest implements SieveTestable {
 
     @Override
     public void doTest(SieveMockServer mock) throws Exception {
-	mock
-	  .doInit("LOGIN")
-	  .doListScript()
-	  .sleep(10000);	
 	
-	System.out.println("Anonyoums connect Test passed...");
+	mock
+	.doInit("LOGIN")
+	.doStartTLS("LOGIN")
+	.doSaslLogin()
+	.doListScript();
+	
+	System.out.println("Login Test passed...");
     }
 
 }

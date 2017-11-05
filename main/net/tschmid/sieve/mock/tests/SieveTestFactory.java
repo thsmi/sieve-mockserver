@@ -7,7 +7,7 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.tests;
+package net.tschmid.sieve.mock.tests;
 
 public class SieveTestFactory {
 

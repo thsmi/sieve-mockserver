@@ -6,21 +6,22 @@
  * The initial author of the code is:
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
-package org.mozdev.sieve.tests;
 
-import org.mozdev.sieve.server.SieveMockServer;
+package net.tschmid.sieve.mock.tests;
 
-public class SieveCramMd5Test implements SieveTestable {
+import net.tschmid.sieve.mock.server.SieveMockServer;
+
+public class SieveScramSha1Test implements SieveTestable {
     
     public void doTest(SieveMockServer mock) throws Exception {
 	
 	mock
-	  .doInit("CRAM-MD5")
-	  .doStartTLS("CRAM-MD5")
-	  .doSaslCramMd5()
+	  .doInit("SCRAM-SHA-1")
+	  .doStartTLS("SCRAM-SHA-1")
+	  .deSaslScramSha1()
 	  .doListScript();
 
-	System.out.println("CRAM-MD5 Test passed...");
+	System.out.println("SCRAM-SHA-1 Test passed...");
     }
 
 }

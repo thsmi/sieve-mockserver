@@ -6,13 +6,14 @@
  * The initial author of the code is:
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
-package org.mozdev.sieve.exceptions;
+package net.tschmid.sieve.mock.exceptions;
 
-public class SieveConfigurationException extends Exception {
-    
-    private static final long serialVersionUID = 3394506758273129222L;
+public class SieveTestException extends Exception {
 
-    public SieveConfigurationException(String message) {
-	super(message);
+    public SieveTestException(String string) {
+	super(string);
     }
+
+    private static final long serialVersionUID = -5545711196023514683L;
+
 }

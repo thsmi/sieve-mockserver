@@ -7,7 +7,7 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve.server;
+package net.tschmid.sieve.mock.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

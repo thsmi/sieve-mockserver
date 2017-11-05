@@ -7,12 +7,12 @@
  *   Thomas Schmid <schmid-thomas@gmx.net>
  */
 
-package org.mozdev.sieve;
+package net.tschmid.sieve.mock;
 
-import org.mozdev.sieve.exceptions.SieveTestException;
-import org.mozdev.sieve.server.SieveMockServer;
-import org.mozdev.sieve.tests.SieveTestFactory;
-import org.mozdev.sieve.tests.SieveTestable;
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
+import net.tschmid.sieve.mock.server.SieveMockServer;
+import net.tschmid.sieve.mock.tests.SieveTestFactory;
+import net.tschmid.sieve.mock.tests.SieveTestable;
 
 // Use the following commands to create a keystore and a truststore.
 //

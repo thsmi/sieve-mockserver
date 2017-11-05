@@ -1,6 +1,6 @@
-package org.mozdev.sieve.verifier;
+package net.tschmid.sieve.mock.verifier;
 
-import org.mozdev.sieve.exceptions.SieveTestException;
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
 
 public class SieveAssert {
 
