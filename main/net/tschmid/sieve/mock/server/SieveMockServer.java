@@ -139,7 +139,7 @@ public class SieveMockServer {
      * Pauses the thread for the given amount of time.
      * 
      * @param duration
-     *            the number of seconds to sleep.
+     *            the number of milliseconds to sleep.
      * @return a self reference
      */
     public SieveMockServer sleep(long duration) {
