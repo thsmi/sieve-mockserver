@@ -12,7 +12,7 @@ package net.tschmid.sieve.mock.tests;
 public class SieveTestFactory {
 
     private static enum Tests {
-	ANONYMOUS, FRAGMENTATION, REFERRAL, REFERRAL2, CRAMMD5, LOGIN, SCRAMSHA1, EXTERNAL, UNKNOWN;
+	ANONYMOUS, FRAGMENTATION, REFERRAL, REFERRAL2, CRAMMD5, LOGIN, SCRAMSHA1, SCRAMSHA256, EXTERNAL, UNKNOWN;
 
 	public static Tests getByName(String name) {
 	    try {
@@ -40,6 +40,8 @@ public class SieveTestFactory {
 	    return new SieveCramMd5Test();
 	case SCRAMSHA1:
 	    return new SieveScramSha1Test();
+	case SCRAMSHA256:
+	    return new SieveScramSha256Test();	    
 	case LOGIN:
 	    return new SieveLoginTest();
 	case EXTERNAL:

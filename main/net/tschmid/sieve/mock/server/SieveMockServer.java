@@ -219,7 +219,7 @@ public class SieveMockServer {
 	return this;
     }
 
-    public SieveMockServer deSaslScramSha1() throws Exception {
+    public SieveMockServer doSaslScramSha1() throws Exception {
 	/*
 	 * We use test sequence from the RFC 5802
 	 *
@@ -270,6 +270,58 @@ public class SieveMockServer {
 	return this;
     }
 
+    public SieveMockServer doSaslScramSha256() throws Exception {
+	/*
+	 * We use test sequence from the RFC 5802
+	 *
+	 * C: n,,n=user,r=fyko+d2lbbFgONRv9qkxdawL S:
+	 * r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,s=QSXCR+Q6sek8bf92,i=4096 C:
+	 * c=biws,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,p=v0X8v3Bz2T0CJGbJQyF0X+
+	 * HI4Ts= S: v=rmF9pqV8S7suAoZWja4dJRkFsKQ=
+	 *
+	 * As SCRAM is secure and this test is dumb we need to tweak/force the client to
+	 * use a a predefined nonce
+	 * 
+	 * nonce = fyko+d2lbbFgONRv9qkxdawL username = user password = pencil
+	 * 
+	 * C: biwsbj11c2VyLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdM S:
+	 * cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng
+	 * == C:
+	 * Yz1iaXdzLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdMM3JmY05IWUpZMVpWdldWczdqLHA9djBYOHYzQnoyVDBDSkdiSlF5RjBYK0hJNFRzPQ
+	 * == S: dj1ybUY5cHFWOFM3c3VBb1pXamE0ZEpSa0ZzS1E9
+	 */
+	
+	assertTrue(socket.readLine(),
+		"AUTHENTICATE \"SCRAM-SHA-256\" \"biwsbj11c2VyLHI9ck9wck5HZndFYmVSV2diTkVrcU8=\"");
+
+	doReturn(
+		"\"cj1yT3ByTkdmd0ViZVJXZ2JORWtxTyVodllEcFdVYTJSYVRDQWZ1eEZJbGopaE5sRiRrMCxzPVcyMlphSjBTTlk3c29Fc1VFamI2Z1E9PSxpPTQwOTY=\"\r\n");
+
+	assertTrue(socket.readLine(),
+		"\"Yz1iaXdzLHI9ck9wck5HZndFYmVSV2diTkVrcU8laHZZRHBXVWEyUmFUQ0FmdXhGSWxqKWhObEYkazAscD1kSHpiWmFwV0lrNGpVaE4rVXRlOXl0YWc5empmTUhnc3FtbWl6N0FuZFZRPQ==\"");
+
+	String verifier;
+
+	if (this.getFlags().isEnabled(SERVER_SIGNATURE_BROKEN))
+	    verifier = "\"dj1ybUY5cHFWOFM3c3VBb1pXamE0ZEpSa0ZzS0k=\"";
+	else
+	    verifier = "\"dj02cnJpVFJCaTIzV3BSUi93dHVwK21NaFVaVW4vZEI1bkxUSlJzamw5NUc0PQ==\"";
+
+	if (this.getFlags().isEnabled(SERVER_SIGNATURE_INLINE)) {
+	    doReturn("OK (SASL " + verifier + ")\r\n");
+	    return this;
+	}
+
+	doReturn(verifier + "\r\n");
+
+	assertTrue(socket.readLine(), "\"\"");
+
+	doReturn("OK\r\n");
+
+	return this;
+    }    
+    
+    
     public SieveMockServer doSaslPlain() throws Exception {
 	/*
 	 * [22:54:02.845 server2] Client -> Server: AUTHENTICATE "PLAIN" "xxxxxxxxx"

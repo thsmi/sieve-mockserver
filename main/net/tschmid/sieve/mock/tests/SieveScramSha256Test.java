@@ -11,18 +11,18 @@ package net.tschmid.sieve.mock.tests;
 
 import net.tschmid.sieve.mock.server.SieveMockServer;
 
-public class SieveScramSha1Test implements SieveTestable {
+public class SieveScramSha256Test implements SieveTestable {
     
     public void doTest(SieveMockServer mock) throws Exception {
 	
 	mock
-	  .doInit("SCRAM-SHA-1")
-	  .doStartTLS("SCRAM-SHA-1")
-	  .doSaslScramSha1()
+	  .doInit("SCRAM-SHA-256")
+	  .doStartTLS("SCRAM-SHA-256")
+	  .doSaslScramSha256()
 	  .doListScript()
-	  .sleep(60*1000);
+	  .sleep(60*1000);	
 
-	System.out.println("SCRAM-SHA-1 Test passed...");
+	System.out.println("SCRAM-SHA-256 Test passed...");
     }
 
 }
