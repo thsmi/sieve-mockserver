@@ -212,8 +212,8 @@ public class SieveMockServer {
 	waitFor("AUTHENTICATE \"CRAM-MD5\"");
 	doReturn("\"PDUxMjk5Njc4MzAwNjM0NTcuMTMwOTg0MTM4N0BteC5tZXpvbi5sb2NhbD4=\"\r\n");
 
-	// It's the hash, we currently accept any hash...
-	waitForAnything();
+	// We expect the username to be user and the password to be pencil
+	waitFor("\"dXNlciBhNWEzM2IxZTUwNjZiN2FjYWI4MmQ1ZDQ3N2E3NTk3Nw==\"");
 	doReturn("OK \"Authentication completed.\"\r\n");
 
 	return this;
