@@ -116,11 +116,27 @@ font-weight: normal;
         <option value="referral-on-authenticate">Referral on AUTHENTICATE</option>
         <option value="referral-on-listscripts">Referral on LISTSCRIPTS</option>
       </optgroup>
+
+      <optgroup label="SASL SCRAM">
+        <option value="sasl-scram-sha1">SHA1</option>
+        <option value="sasl-scram-sha1-inline">SHA1 - Inline</option>
+        <option value="sasl-scram-sha1-broken">SHA1 - Broken Validation</option>
+        <option value="sasl-scram-sha1-broken-inline">SHA1 - Inline & Broken Validation</option>
+        <option value="sasl-scram-sha256">SHA256</option>
+        <option value="sasl-scram-sha256-inline">SHA256 - Inline</option>
+        <option value="sasl-scram-sha256-broken">SHA256 - Broken Validation</option>
+        <option value="sasl-scram-sha256-broken-inline">SHA256 - Inline & Broken Validation</option>
+        <option value="sasl-scram-sha512">SHA512</option>
+        <option value="sasl-scram-sha512-inline">SHA512 - Inline</option>
+        <option value="sasl-scram-sha512-broken">SHA512 - Broken Validation</option>
+        <option value="sasl-scram-sha512-broken-inline">SHA512 - Inline & Broken Validation</option> 
+      </optgroup>
+
       <optgroup label="SASL Mechanisms">
         <option value="sasl-external">SASL-EXTERNAL</option>
         <option value="sasl-login">SASL-LOGIN</option>
         <option value="sasl-plain">SASL-PLAIN</option>
-        <option value="sasl-scram-sha1">SASL-SCRAM-SHA1</option>
+
         <option value="sasl-scram-sha256">SASL-SCRAM-SHA1</option>
         <option value="sasl-scram-sha512">SASL-SCRAM-SHA512</option>
       </optgroup>
@@ -182,14 +198,6 @@ font-weight: normal;
   <input type="checkbox" id="cbxRespawn">
   <label for="cbxRespawn">Auto Respawn fake sieve servers</label><br>    
 
-  <h2>SASL Handshake</h2>
-  <!-- SERVER_SIGNATURE_BROKEN - SASL SCRAM, simulate broken server signature -->
-  <input type="checkbox" id="cbxSaslBrokenSignature" name="saslBrokenSignature">
-  <label for="cbxSaslBrokenSignature">SCRAM: Broken server signature</label><br>
-
-  <!-- SERVER_SIGNATURE_INLINE - SASL SCRAM, respond with inline signature -->
-  <input type="checkbox" id="cbxSaslInlineSignature" name="saslInlineSignature">
-  <label for="cbxSaslInlineSignature">SCRAM: Inline server signature</label><br>
 </div>
 </div>
 

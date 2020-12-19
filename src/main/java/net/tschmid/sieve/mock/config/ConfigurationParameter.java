@@ -10,9 +10,6 @@
 package net.tschmid.sieve.mock.config;
 
 public enum ConfigurationParameter {
-  
-  SERVER_SIGNATURE_BROKEN, 
-  SERVER_SIGNATURE_INLINE, 
 
   SUPPORT_TLS,
 

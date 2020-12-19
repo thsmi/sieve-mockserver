@@ -1,21 +1,32 @@
 package net.tschmid.sieve.mock.tests.steps.sasl;
 
-import org.w3c.dom.Element;
-
-import net.tschmid.sieve.mock.exceptions.SieveTestException;
-import net.tschmid.sieve.mock.tests.TestContext;
-import net.tschmid.sieve.mock.tests.steps.Step;
-
-public class SaslScramSha512 implements Step {
+/**
+ * Implements a test step for the SASL SCRAM SHA512 mechanism.
+ */
+public class SaslScramSha512 extends SaslScramSha {
 
   @Override
-  public boolean is(Element elm) {
-    return true;
+  protected String getDefaultFirstRequest() {
+    throw new RuntimeException("Implement me");
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
-    throw new SieveTestException("Implement me");
+  protected String getDefaultFirstResponse() {
+    throw new RuntimeException("Implement me");
   }
-  
+
+  @Override
+  protected String getDefaultFinalRequest() {
+    throw new RuntimeException("Implement me");
+  }
+
+  @Override
+  protected String getDefaultFinalResponse() {
+    throw new RuntimeException("Implement me");
+  }
+
+  @Override
+  protected String getMechanism() {
+    throw new RuntimeException("Implement me");
+  }
 }

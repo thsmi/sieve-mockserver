@@ -5,6 +5,9 @@ import org.w3c.dom.Element;
 import net.tschmid.sieve.mock.tests.TestContext;
 import net.tschmid.sieve.mock.tests.steps.Step;
 
+/**
+ * Implements a test step for the SASL LOGIN mechanism.
+ */
 public class SaslLoginStep implements Step {
 
   @Override

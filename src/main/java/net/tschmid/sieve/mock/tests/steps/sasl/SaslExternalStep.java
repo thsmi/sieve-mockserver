@@ -5,6 +5,9 @@ import org.w3c.dom.Element;
 import net.tschmid.sieve.mock.tests.TestContext;
 import net.tschmid.sieve.mock.tests.steps.Step;
 
+/**
+ * Implements a test step for the SASL EXTERNAL mechanism.
+ */
 public class SaslExternalStep implements Step {
 
   @Override

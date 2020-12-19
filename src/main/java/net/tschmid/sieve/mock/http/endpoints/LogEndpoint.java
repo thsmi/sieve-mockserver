@@ -6,11 +6,14 @@ import net.tschmid.sieve.mock.http.WebSocket;
 import net.tschmid.sieve.mock.log.LogListener;
 import net.tschmid.sieve.mock.log.ActivityLog;
 
+/**
+ * The logger endpoint it gets upgraded into a websocket.
+ */
 public class LogEndpoint implements Endpoint {
 
   @Override
   public boolean canHandle(HttpRequest request) {
-    if (request.getMethod().equals("GET"))
+    if (!request.getMethod().equals("GET"))
       return false;
 
     if (request.getPath().equals("/log"))

@@ -9,14 +9,20 @@
 
 package net.tschmid.sieve.mock.http.endpoints;
 
+import java.net.URL;
+
 import net.tschmid.sieve.mock.http.HttpRequest;
 import net.tschmid.sieve.mock.http.HttpResponse;
+import net.tschmid.sieve.mock.http.exceptions.HttpFileNotFound;
 
+/**
+ * An endpoint for reading test templates.
+ */
 public class TemplatesEndpoint implements Endpoint {
 
   @Override
   public boolean canHandle(HttpRequest request) {
-    
+
     if (!request.getMethod().equals("GET"))
       return false;
 
@@ -28,9 +34,14 @@ public class TemplatesEndpoint implements Endpoint {
 
   @Override
   public void handle(HttpRequest request, HttpResponse response) throws Exception {
-    String url = "./templates/" + request.getQuery("template") + ".xml";
+    String url = "./templates/" + request.getQuery("template") + ".xml";    
 
-    response.send(this.getClass().getResource("./../" + url).openStream());
+    URL resource = this.getClass().getResource("./../" + url);
+
+    if (resource == null)
+      throw new HttpFileNotFound(url);      
+
+    response.send(resource.openStream());
   }
   
 }
