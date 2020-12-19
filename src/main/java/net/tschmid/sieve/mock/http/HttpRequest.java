@@ -22,21 +22,41 @@ import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionClosedExcepti
 import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionException;
 import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionReadException;
 
+/**
+ * Implements an http request which reads directly from the socket.
+ */
 public class HttpRequest implements AutoCloseable {
 
+  /** Stores the http headers after parsing completes */
   private final Map<String, String> header = new HashMap<>();
+  /** Stores the query string after parsing completes */
   private final Map<String, String> query = new HashMap<>();
 
+  /** The socket's input stream, buffered for better performance */
   private final BufferedInputStream in;
 
+  /** The http method like GET, POST etc.. */
   private String method;
+  /** The path which was extracted from the query string */
   private String path;
+  /** The requests http protocol version */
   private String protocol;
 
+  /**
+   * Creates a new instance.
+   * @param connection
+   *   the socket from which incoming data should be read.
+   * @throws IOException
+   */
   public HttpRequest(final Socket connection) throws IOException {
     this.in = new BufferedInputStream(connection.getInputStream());
   }
 
+  /**
+   * Returns the request's http method as string, e.g. GET, POST, etc...
+   * @return
+   *   the request method as string.
+   */
   public String getMethod() {
     return this.method;
   }
@@ -45,6 +65,11 @@ public class HttpRequest implements AutoCloseable {
     return this.path;
   }
 
+  /**
+   * Returns the http protocol used for this request.
+   * @return
+   *   the protocol as string.
+   */
   public String getProtocol() {
     return this.protocol;
   }
@@ -57,12 +82,29 @@ public class HttpRequest implements AutoCloseable {
     return this.query.get(key);
   }
 
-  public boolean hasHeader(String key) {
-    return this.header.containsKey(key);
+  /**
+   * Checks if the given header exists.
+   * It will only succeed after the header is parsed.
+   * 
+   * @param name
+   *   the header name to be checked.
+   * @return
+   *   true in case a header exists otherwise false.
+   */
+  public boolean hasHeader(String name) {
+    return this.header.containsKey(name);
   }
 
-  public String getHeader(String key) {
-    return this.header.get(key);
+  /**
+   * Returns the given header in case it exists.
+   * 
+   * @param name
+   *   the header name to be returned .
+   * @return
+   *   the header value as string or null in case the header does not exits.
+   */
+  public String getHeader(String name) {
+    return this.header.get(name);
   }
 
   protected String[] split(String data, String delim, int count) {

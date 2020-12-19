@@ -93,6 +93,16 @@ public class WebSocket {
     return this;
   }
 
+  /**
+   * Sends a binary frame with the given data.
+   * @param data
+   *   the data to be send.
+   * @return
+   *   a self reference for chaining requests.
+   * 
+   * @throws WebSocketException
+   * @throws ConnectionWriteException
+   */
   public WebSocket send(String data) throws WebSocketException, ConnectionWriteException {
     if (!this.upgraded)
       throw new WebSocketException("Socket not upgraded");
@@ -169,6 +179,17 @@ public class WebSocket {
     return data;
   }
 
+  /**
+   * Returns the next incoming message. This is a blocking call it will 
+   * return the received object or throw in case no message could be 
+   * received.
+   * 
+   * @return
+   *   the received message.
+   * 
+   * @throws WebSocketException
+   * @throws ConnectionException
+   */
   public WebSocketMessage read() throws WebSocketException, ConnectionException {
     if (!this.upgraded)
       throw new WebSocketException("Socket not upgraded");
@@ -181,11 +202,11 @@ public class WebSocket {
 
     int length = this.readLength((byte)header[1]);
 
-    if (opcode.equals(CONNECTION_CLOSE_FRAME)) {
+    if (opcode == CONNECTION_CLOSE_FRAME) {
       throw new WebSocketException("Connection closed by server");
     }
 
-    if (opcode.equals(PONG_FRAME)) {
+    if (opcode == PONG_FRAME) {
       throw new WebSocketException("Implement pong.");
       // TODO send a pong and continue reading..
       //return this.read();
@@ -194,7 +215,8 @@ public class WebSocket {
     if ((header[1] & 0b10000000) == 0)
       throw new WebSocketException("Client to server messages have to be masked");
 
-    if (opcode.equals(TEXT_FRAME) || opcode.equals(BINARY_FRAME) ||opcode.equals(CONTINUATION_FRAME) ) {
+    if (opcode == TEXT_FRAME || opcode == BINARY_FRAME || opcode == CONTINUATION_FRAME ) {
+      // TODO wait unitl final is set.
       return new WebSocketMessage(opcode, isFinal, this.readMaskedData(length));
     }
 
