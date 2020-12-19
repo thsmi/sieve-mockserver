@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing DELETESCRIPT command" />
+
+  <server port="4190">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+
+    <listscripts scripts="SCRIPTS" />
+
+    <deletescript script="SCRIPTS" fail="true" />
+    <listscripts scripts="SCRIPTS" />
+
+    <success msg="DELETESCRIPT passed" />
+    <logout />    
+  </server>
+</test> 	

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing SASL PLAIN" />
+
+  <server port="4190">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+    <listscripts />
+
+    <success msg="SASL PLAIN test passed" />
+    <logout />
+  </server>
+</test>

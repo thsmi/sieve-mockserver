@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing SASL SCRAM-SHA-512" />
+
+  <server port="4190">
+    <init sasl="SCRAM-SHA-512" />
+    <starttls sasl="SCRAM-SHA-512" />
+    <sasl mechanism="SCRAM-SHA-512" />
+    <listscripts />
+  
+    <success msg="SASL SCRAM-SHA-512 test passed" />
+    <logout />
+  </server>  
+</test> 	

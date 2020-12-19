@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing SASL EXTERNAL" />
+
+  <server port="4190">
+    <init sasl="EXTERNAL" />
+    <starttls sasl="EXTERNAL" />
+    <sasl mechanism="EXTERNAL" authorization="dGVzdA==" />
+    <listscripts />
+
+    <success msg="SASL EXTERNAL test passed" />
+    <logout />
+  </server>
+</test> 	

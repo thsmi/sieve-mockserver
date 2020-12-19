@@ -8,6 +8,7 @@ A mock implementation for a manage sieve server used to test the sieve clients
     SCRAMSHA1 SUPPORT_TLS KEYSTORE=d:\keystore.p12 TRUSTSTORE=d:\truststore.jks
     CRAMMD5 SUPPORT_TLS KEYSTORE=d:\keystore.p12 TRUSTSTORE=d:\truststore.jks
     EXTERNAL SUPPORT_TLS KEYSTORE=d:\keystore.p12 TRUSTSTORE=d:\truststore.jks FRAGMENTED
+    LOGIN SECURE_SASL SUPPORT_TLS KEYSTORE=d:\keystore.p12 TRUSTSTORE=d:\truststore.jks RESPAWN SERVER_SIGNATURE_INLINE
     
 ## How to create a keystore for TLS
 

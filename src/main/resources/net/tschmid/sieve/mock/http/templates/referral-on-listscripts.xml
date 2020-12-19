@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing Referral on LISTSCRIPTS" />
+
+  <server port="4190">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+  
+    <wait for="LISTSCRIPTS" />
+    <referral port="2001" />
+  </server>  
+
+  <server port="2001">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+    <listscripts />
+    
+    <success msg="Referral on LISTSCRIPTS test passed" />
+    <logout />
+  </server>
+</test> 	

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing Referral on AUTHENTICATION" />
+
+  <server port="4190">
+    <init sasl="LOGIN" />
+    <starttls sasl="LOGIN" />
+  
+    <wait for='AUTHENTICATE "LOGIN"' />  
+    <referral port="2001" />
+  </server>  
+
+  <server port="2001">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+    <listscripts />
+
+    <success msg="Referral on AUTHENTICATION passed" />
+    <logout /> 
+  </server>
+</test> 	

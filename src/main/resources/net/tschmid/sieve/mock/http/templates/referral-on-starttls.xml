@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<test>
+  <log msg="Testing Referral on STARTTLS" />
+
+  <server port="4190">
+    <init sasl="PLAIN" />
+
+    <wait for="STARTTLS" />
+    <referral port="2001" />
+  </server>
+  
+  <server port="2001">
+    <init sasl="PLAIN" />
+    <starttls sasl="PLAIN" />
+    <sasl mechanism="PLAIN" />
+    <listscripts />
+
+    <success msg="Referral on STARTTLS passed" />
+    <logout />
+  </server>
+
+</test>
+

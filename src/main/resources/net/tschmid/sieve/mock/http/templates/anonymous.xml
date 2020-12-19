@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<test>
+  <init sasl="LOGIN" />
+  <listscripts />
+  <sleep duration="10" />
+  <log msg="Anonymous login test passed" />
+</test>
