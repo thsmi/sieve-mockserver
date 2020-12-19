@@ -1,11 +1,21 @@
 package net.tschmid.sieve.mock.tests.steps;
 
-import static net.tschmid.sieve.mock.config.ConfigurationParameter.*;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SECURE_SASL;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SUPPORT_TLS;
 
 import org.w3c.dom.Element;
 
 import net.tschmid.sieve.mock.tests.TestContext;
 
+/**
+ * Implements the initial welcome message which is send upon connect.
+ * 
+ * It does a blocking wait for a an incoming connection
+ * 
+ * It will not advertise any sasl mechanisms if "SECURE_SASL" flag is enabled.
+ * This will be then done by the new capability advertisement after the secure
+ * handshake.
+ */
 public class InitStep implements Step {
 
   private final String INIT_RESPONSE = "" 

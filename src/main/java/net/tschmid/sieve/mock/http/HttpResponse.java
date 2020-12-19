@@ -32,12 +32,17 @@ public class HttpResponse implements AutoCloseable {
   private String contentType = "text/plain";
   private boolean headerSend = false;
 
-  private Map<String, String> headers = new HashMap<>();
+  private final Map<String, String> headers = new HashMap<>();
 
   public HttpResponse(Socket connection) throws IOException {
     this.out = new BufferedOutputStream(connection.getOutputStream());
   }
 
+  /**
+   * Checks if the headers have been sent.
+   * @return
+   *   true in case the headers are sent other wise false.
+   */
   public boolean isHeaderSend() {
     return this.headerSend; 
   }  
@@ -66,6 +71,13 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
+  /**
+   * Flushes the response buffers and sends all currently buffered data.
+   * @return
+   *   a self reference
+   * 
+   * @throws ConnectionWriteException
+   */
   public HttpResponse flush() throws ConnectionWriteException {
     try {
       this.out.flush();
@@ -153,7 +165,19 @@ public class HttpResponse implements AutoCloseable {
     this.out.close();
   }
 
-  public void addHeader(String header, String value) {
+  /**
+   * Adds a new header to the response.
+   * 
+   * @param header the header name
+   * @param value  the header value
+   * 
+   * @throws HttpImmutableHeader
+   *   in case the header was already transmitted.
+   */
+  public void addHeader(String header, String value) throws HttpImmutableHeader {
+    if (this.isHeaderSend()) 
+      throw new HttpImmutableHeader();
+
     this.headers.put(header, value);
   }
 
