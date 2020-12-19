@@ -18,7 +18,7 @@ public class TestServer implements Runnable, TestContext {
 
   private Element root = null;
   private FakeServer server = null;
-  private Thread thread = new Thread(this);
+  private final Thread thread = new Thread(this);
 
   private boolean stopped = true;
 

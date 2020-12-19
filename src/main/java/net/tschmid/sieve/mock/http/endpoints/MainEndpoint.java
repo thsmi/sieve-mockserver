@@ -17,7 +17,7 @@ public class MainEndpoint implements Endpoint {
   @Override
   public boolean canHandle(HttpRequest request) {
 
-    if (request.getMethod().equals("GET") != true)
+    if (request.getMethod().equals("GET"))
       return false;
 
     if (request.getPath().equals("/"))

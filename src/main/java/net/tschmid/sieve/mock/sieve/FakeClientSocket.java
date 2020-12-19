@@ -40,6 +40,10 @@ public class FakeClientSocket {
     this.out = new PrintWriter(this.socket.getOutputStream(), true);
   }
 
+  /**
+   * Upgrades the socket to a secure connection.
+   * @throws IOException
+   */
   public void startSSL() throws IOException {
     // ... and convert the socket into an ssl socket...
     InetSocketAddress remoteAddress = (InetSocketAddress) this.socket.getRemoteSocketAddress();
@@ -68,6 +72,11 @@ public class FakeClientSocket {
     this.setSocket(sock);
   }
 
+  /**
+   * Checks if the socket was upgraded to a secure connection.
+   * @return
+   *   true in case the connection is secure otherwise false.
+   */
   public boolean isSecure() {
     return (this.socket instanceof SSLSocket);
   }
@@ -88,7 +97,7 @@ public class FakeClientSocket {
    * end has been reached or an io exception occurred an empty line break is
    * returned.
    * 
-   * @return the line read or an empty line .
+   * @return the line read or an empty line.
    * @throws Exception
    */
   public String readLine() throws Exception {

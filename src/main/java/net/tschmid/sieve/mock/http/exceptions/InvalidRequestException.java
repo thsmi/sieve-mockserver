@@ -12,6 +12,6 @@ public class InvalidRequestException extends HttpException {
 
   public InvalidRequestException(String message, UnsupportedEncodingException e) {
     this(message);
-    e.printStackTrace();;
+    e.printStackTrace();
   }
 }

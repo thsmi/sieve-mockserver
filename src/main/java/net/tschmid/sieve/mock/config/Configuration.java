@@ -15,27 +15,29 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Configuration implements Configurable {
 
-  private Map<ConfigurationParameter, String> flags = new ConcurrentHashMap<>();
+  private final Map<ConfigurationParameter, String> flags = new ConcurrentHashMap<>();
 
-  /**
-   * Checks if the flag is enabled. Returns false in case the flag is unset or
-   * does not evaluate to true.
-   * 
-   * @param key the flag's name
-   * @return true in case the flag is enabled otherwise false.
-   */
+  @Override
   public boolean isEnabled(final ConfigurationParameter key) {
     return Boolean.parseBoolean(this.flags.get(key));
   }
 
-  /**
-   * Checks if a value was set for the given key.
-   * 
-   * @param key the key which should be checked
-   * @return true in case a value was set for this flag otherwise false.
-   */
+  @Override
   public boolean hasFlag(final ConfigurationParameter key) {
     return this.flags.containsKey(key);
+  }
+
+  @Override
+  public String getFlag(final ConfigurationParameter key) {
+    return this.flags.get(key);
+  }
+
+  @Override
+  public String getFlag(final ConfigurationParameter key, final ConfigurationParameter fallback) {
+    if (this.hasFlag(key))
+      return this.getFlag(key);
+
+    return this.getFlag(fallback);
   }
 
   /**
@@ -71,23 +73,6 @@ public class Configuration implements Configurable {
     return this;
   }
 
-  /**
-   * Returns the value for the given flag or null in case no value is stored.
-   * 
-   * @param key the key for which the value should be returned.
-   * @return the value or null in case no value for the given key exists.
-   */
-  public String getFlag(final ConfigurationParameter key) {
-    return this.flags.get(key);
-  }
-
-  public String getFlag(final ConfigurationParameter key, final ConfigurationParameter fallback) {
-    if (this.hasFlag(key))
-      return this.getFlag(key);
-
-    return this.getFlag(fallback);
-  }
-
   public Configuration setFlag(final String key, final String value) throws ConfigurationException {
 
     this.setFlag(ConfigurationParameter.getFlagByName(key), value);
@@ -109,6 +94,13 @@ public class Configuration implements Configurable {
     return this;
   }
 
+  /**
+   * Converts the current configuration into a json object.
+   * It is a poor mans implementation.
+   * 
+   * @return
+   *   the json string.
+   */
   public String toJson() {
     String result = "";
 

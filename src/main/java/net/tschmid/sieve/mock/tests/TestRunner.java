@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import net.tschmid.sieve.mock.config.Configuration;
-
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
 import net.tschmid.sieve.mock.log.ActivityLog;
 import net.tschmid.sieve.mock.tests.steps.CapabilityStep;
 import net.tschmid.sieve.mock.tests.steps.DeleteScriptStep;
@@ -106,7 +106,7 @@ public class TestRunner {
     Element root = doc.getDocumentElement();
 
     if (!root.getNodeName().equals("test"))
-      throw new Exception("Expected root node test");      
+      throw new SieveTestException("Expected root node test");      
 
     NodeList children = root.getChildNodes();
     for (int idx = 0; idx < children.getLength(); idx++) {
@@ -127,7 +127,7 @@ public class TestRunner {
       }
 
       System.out.println("Unknown element "+child.getNodeName());
-      throw new Exception("Unknown element "+child.getNodeName());
+      throw new SieveTestException("Unknown element "+child.getNodeName());
     }
 
   }
