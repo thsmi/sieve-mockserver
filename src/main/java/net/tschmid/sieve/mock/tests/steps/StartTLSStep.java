@@ -7,6 +7,8 @@ import static net.tschmid.sieve.mock.config.ConfigurationParameter.SUPPORT_TLS;
 
 import net.tschmid.sieve.mock.tests.TestContext;
 
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
+
 /**
  * Implements a StartTLS handshake.
  * 
@@ -19,6 +21,12 @@ import net.tschmid.sieve.mock.tests.TestContext;
  * SIMULATE_CYRUS_STARTTLS_BUG flag.
  */
 public class StartTLSStep implements Step {
+
+  /**
+   * Create as new instance.
+   */
+  public StartTLSStep() {    
+  }
 
   @Override
   public boolean is(Element elm) {
@@ -33,10 +41,10 @@ public class StartTLSStep implements Step {
       sasl = elm.getAttribute("sasl");
   
     if (!context.getFlags().isEnabled(SUPPORT_TLS))
-      throw new Exception("TLS Not supported");
+      throw new SieveTestException("TLS Not supported");
 
     if (context.getServer().isSecure())
-      throw new Exception("Socket already upgraded to a secure socket");
+      throw new SieveTestException("Socket already upgraded to a secure socket");
 
     context.getServer()
       .waitFor("STARTTLS")

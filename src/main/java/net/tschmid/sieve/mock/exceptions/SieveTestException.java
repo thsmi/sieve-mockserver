@@ -9,12 +9,20 @@
 
 package net.tschmid.sieve.mock.exceptions;
 
+/**
+ * Signals that the test was aborted or failed because of an exception.
+ */
 public class SieveTestException extends Exception {
 
-    public SieveTestException(String string) {
-	super(string);
-    }
+  private static final long serialVersionUID = -5545711196023514683L;
 
-    private static final long serialVersionUID = -5545711196023514683L;
+  /**
+   * Creates a new instance
+   * @param string
+   *   the exception message as string.
+   */
+  public SieveTestException(String string) {
+    super(string);
+  }
 
 }

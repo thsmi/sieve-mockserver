@@ -13,30 +13,41 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import net.tschmid.sieve.mock.http.endpoints.Endpoint;
 import net.tschmid.sieve.mock.log.ActivityLog;
 
+/**
+ * Implements a simplistic web server with pluggable endpoints.
+ */
 public class HttpServer implements Runnable {
 
+  /** The port on which the server listens for incoming requests */
   private static final int port = 8080;
-  private static List<Endpoint> endpoints = new LinkedList<>();
+  /** Contains all registered endpoints which can handle incoming request */
+  private static final List<Endpoint> endpoints = Collections.synchronizedList(new LinkedList<>());
 
-  public HttpServer() {
-  }
-
+  /**
+   * Starts the web server.
+   * It will spawn a worker thread and return immediately.
+   * 
+   * @return as self reference.
+   */
   public HttpServer start() {
     (new Thread(new HttpServer())).start();
     return this;
   }
 
+  /**
+   * Registers a new endpoint for the web server.
+   * It is threads save and new endpoints can be added at any time.
+   */
   public HttpServer addEndpoint(Endpoint endpoint) {
     HttpServer.endpoints.add(endpoint);
     return this;
@@ -62,15 +73,7 @@ public class HttpServer implements Runnable {
     return buf.toString("UTF-8");
   }
 
-  public void sendError(PrintStream stream, String status) {
-    stream.print("HTTP/1.0 " + status + "\r\n\r\n");
-  }
-
-  public void sendResponse(PrintStream stream, String contentType, String response) {
-    stream.print("" + "HTTP/1.0 200 OK\r\n" + "Content-Type: " + contentType + "\r\n" + "Date: " + new Date() + "\r\n"
-        + "Content-length: " + response.length() + "\r\n" + "\r\n" + response);
-  }
-
+  @Override
   public void run() {
 
     try (ServerSocket socket = new ServerSocket(port)) {

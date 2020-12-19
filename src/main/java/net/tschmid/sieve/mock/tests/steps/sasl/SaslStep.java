@@ -5,21 +5,31 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
 import net.tschmid.sieve.mock.tests.TestContext;
 import net.tschmid.sieve.mock.tests.steps.Step;
 
+/**
+ * Implements a facade for the different sasl mechanisms.
+ * Depending on the configuration it will forward
+ * the call to the corresponding SASL Mechanism.
+ */
 public class SaslStep implements Step {
 
-  Map<String, Step> commands = new HashMap<>();
+  /** Manages all supported sasls mechanisms. */
+  private final Map<String, Step> mechanisms = new HashMap<>();
 
+  /**
+   * Creates a new instance
+   */
   public SaslStep() {
-    commands.put("LOGIN", new SaslLoginStep());
-    commands.put("PLAIN", new SaslPlainStep());
-    commands.put("EXTERNAL", new SaslExternalStep());
+    mechanisms.put("LOGIN", new SaslLoginStep());
+    mechanisms.put("PLAIN", new SaslPlainStep());
+    mechanisms.put("EXTERNAL", new SaslExternalStep());
 
-    commands.put("SCRAM-SHA-1", new SaslScramSha1());
-    commands.put("SCRAM-SHA-256", new SaslScramSha256());
-    commands.put("SCRAM-SHA-512", new SaslScramSha512());
+    mechanisms.put("SCRAM-SHA-1", new SaslScramSha1());
+    mechanisms.put("SCRAM-SHA-256", new SaslScramSha256());
+    mechanisms.put("SCRAM-SHA-512", new SaslScramSha512());
   }
 
   @Override
@@ -30,7 +40,7 @@ public class SaslStep implements Step {
 
     String sasl = elm.getAttribute("mechanism");
 
-    if (!commands.containsKey(sasl))
+    if (!mechanisms.containsKey(sasl))
       return false;
 
     return true;
@@ -40,10 +50,10 @@ public class SaslStep implements Step {
   public void execute(TestContext context, Element elm) throws Exception {
     String sasl = elm.getAttribute("mechanism");    
 
-    if (!commands.containsKey(sasl))
-      throw new Exception("Unknown sasl mechanism " + sasl + " for element " + elm.getNodeName() + " specified");
+    if (!mechanisms.containsKey(sasl))
+      throw new SieveTestException("Unknown sasl mechanism " + sasl + " for element " + elm.getNodeName() + " specified");
 
-    commands.get(sasl).execute(context, elm);
+    mechanisms.get(sasl).execute(context, elm);
   }
   
 }

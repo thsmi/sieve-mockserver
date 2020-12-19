@@ -7,6 +7,12 @@ import net.tschmid.sieve.mock.tests.steps.Step;
 
 public class SaslExternalStep implements Step {
 
+  /**
+   * Creates a new instance
+   */
+  public SaslExternalStep() {    
+  }
+
   @Override
   public boolean is(Element elm) {
     return true;
