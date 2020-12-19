@@ -24,13 +24,14 @@ import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionReadException
 
 public class HttpRequest implements AutoCloseable {
 
-  private Map<String, String> header = new HashMap<>();
+  private final Map<String, String> header = new HashMap<>();
+  private final Map<String, String> query = new HashMap<>();
+
+  private final BufferedInputStream in;
+
   private String method;
   private String path;
   private String protocol;
-  private Map<String, String> query = new HashMap<>();
-
-  private final BufferedInputStream in;
 
   public HttpRequest(final Socket connection) throws IOException {
     this.in = new BufferedInputStream(connection.getInputStream());

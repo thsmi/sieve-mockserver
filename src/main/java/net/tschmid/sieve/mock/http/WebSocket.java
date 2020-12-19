@@ -1,6 +1,11 @@
 package net.tschmid.sieve.mock.http;
 
-import java.io.IOException;
+import static net.tschmid.sieve.mock.http.websocket.OpCode.CONNECTION_CLOSE_FRAME;
+import static net.tschmid.sieve.mock.http.websocket.OpCode.PONG_FRAME;
+import static net.tschmid.sieve.mock.http.websocket.OpCode.TEXT_FRAME;
+import static net.tschmid.sieve.mock.http.websocket.OpCode.BINARY_FRAME;
+import static net.tschmid.sieve.mock.http.websocket.OpCode.CONTINUATION_FRAME;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,32 +18,54 @@ import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionWriteExceptio
 import net.tschmid.sieve.mock.http.websocket.OpCode;
 import net.tschmid.sieve.mock.http.websocket.WebSocketMessage;
 
-import static net.tschmid.sieve.mock.http.websocket.OpCode.*;
-
+/**
+ * Upgrades the http connection to a websocket connection.
+ */
 public class WebSocket {
+
+  public final static String HEADER_UPGRADE = "Upgrade";
+  public final static String HEADER_CONNECTION = "Connection";
+  public final static String HEADER_SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
+  public final static String HEADER_SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
 
   private final HttpRequest request;
   private final HttpResponse response;
 
   private boolean upgraded = false;
 
+  /**
+   * Create a new websocket, it be ready after calling upgraded.
+   * The upgrade needs to be done before sending the response header.
+   * 
+   * @param request
+   *   the incoming http request.
+   * @param response
+   *   the outgoing http response.
+   */
   public WebSocket(final HttpRequest request, final HttpResponse response) {
     this.request = request;
     this.response = response;
   }
 
+  /**
+   * Performs the websocket upgrade.
+   * @return
+   *   a self reference
+   * @throws HttpException
+   * @throws ConnectionWriteException
+   */
   public WebSocket upgrade() throws HttpException, ConnectionWriteException {
 
-    if (!this.request.hasHeader("Upgrade"))
+    if (!this.request.hasHeader(HEADER_UPGRADE))
       throw new HttpException("500 Upgrade Header Expected");
 
-    if (!this.request.getHeader("Upgrade").equals("websocket"))
+    if (!this.request.getHeader(HEADER_UPGRADE).equals("websocket"))
       throw new HttpException("500 Incompatible upgrade ");
 
-    if (!this.request.hasHeader("Sec-WebSocket-Key"))
+    if (!this.request.hasHeader(HEADER_SEC_WEBSOCKET_KEY))
       throw new HttpException("500 Sec Key Header Expected");
 
-    String secKey = this.request.getHeader("Sec-WebSocket-Key");
+    String secKey = this.request.getHeader(HEADER_SEC_WEBSOCKET_KEY);
 
     try {
       MessageDigest crypt = MessageDigest.getInstance("SHA-1");
@@ -52,9 +79,9 @@ public class WebSocket {
     }
 
     response.setStatus("101 Switch Protocols");
-    response.addHeader("Upgrade", "websocket");
-    response.addHeader("Connection", "Upgrade");
-    response.addHeader("Sec-WebSocket-Accept", secKey);
+    response.addHeader(HEADER_UPGRADE, "websocket");
+    response.addHeader(HEADER_CONNECTION, "Upgrade");
+    response.addHeader(HEADER_SEC_WEBSOCKET_ACCEPT, secKey);
 
     response.sendHeader();
 

@@ -38,7 +38,7 @@ public class TestRunner {
 
   private final List<TestServer> servers = new LinkedList<>();
 
-  private Configuration flags = new Configuration();
+  private final Configuration flags = new Configuration();
 
   public static synchronized TestRunner getInstance() {
     if (TestRunner.singleton == null)

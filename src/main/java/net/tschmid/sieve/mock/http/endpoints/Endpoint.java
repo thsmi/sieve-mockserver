@@ -12,7 +12,30 @@ package net.tschmid.sieve.mock.http.endpoints;
 import net.tschmid.sieve.mock.http.HttpRequest;
 import net.tschmid.sieve.mock.http.HttpResponse;
 
+/**
+ * Implements an http endpoint.
+ */
 public interface Endpoint {
-  public boolean canHandle(HttpRequest request);
-  public void handle(HttpRequest request, HttpResponse response) throws Exception;
+  /**
+   * Checks if the endpoint can handle the request.
+   * Typically the query path is checked.
+   * 
+   * @param request
+   *   the incoming http request.
+   * @return
+   *   true in case this endpoint can process the request otherwise false.
+   */
+  boolean canHandle(HttpRequest request);
+
+  /**
+   * Handles and processes the incoming request.
+   * 
+   * @param request
+   *   the incoming request
+   * @param response
+   *   the outgoing response
+   * @throws Exception
+   *   thrown in case the request could not be processed.
+   */
+  void handle(HttpRequest request, HttpResponse response) throws Exception;
 }

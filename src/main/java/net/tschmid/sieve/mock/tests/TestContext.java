@@ -6,8 +6,8 @@ import net.tschmid.sieve.mock.tests.steps.Step;
 
 public interface TestContext {
   
-  public Step getStep(final String step);
-  public boolean hasStep(final String step);
-  public FakeServer getServer();
-  public Configurable getFlags();
+  Step getStep(final String step);
+  boolean hasStep(final String step);
+  FakeServer getServer();
+  Configurable getFlags();
 }

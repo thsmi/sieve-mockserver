@@ -2,10 +2,22 @@ package net.tschmid.sieve.mock.tests.steps;
 
 import org.w3c.dom.Element;
 
-import static net.tschmid.sieve.mock.config.ConfigurationParameter.*;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SIMULATE_CYRUS_STARTTLS_BUG;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SUPPORT_TLS;
 
 import net.tschmid.sieve.mock.tests.TestContext;
 
+/**
+ * Implements a StartTLS handshake.
+ * 
+ * This means waiting for the "STARTTLS" message, then upgrading
+ * the socket to be secure and then returning the initial message.
+ * 
+ * TLS needs to be enabled by setting the SUPPORT_TLS flag.
+ * 
+ * It is possible to simulate the starttls bug by enabling the
+ * SIMULATE_CYRUS_STARTTLS_BUG flag.
+ */
 public class StartTLSStep implements Step {
 
   @Override

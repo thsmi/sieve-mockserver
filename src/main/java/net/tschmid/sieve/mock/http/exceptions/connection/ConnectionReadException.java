@@ -7,6 +7,7 @@ public class ConnectionReadException extends ConnectionException {
   private static final long serialVersionUID = -8101777326792760677L;
 
   public ConnectionReadException(IOException e) {
+    super();
 	}
 
 }

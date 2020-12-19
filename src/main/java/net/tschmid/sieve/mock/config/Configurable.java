@@ -11,8 +11,8 @@ package net.tschmid.sieve.mock.config;
 
 public interface Configurable {
 
-  public boolean isEnabled(final ConfigurationParameter key);
-  public boolean hasFlag(final ConfigurationParameter key);
-  public String getFlag(final ConfigurationParameter key);
-  public String getFlag(final ConfigurationParameter key, final ConfigurationParameter fallback);
+  boolean isEnabled(final ConfigurationParameter key);
+  boolean hasFlag(final ConfigurationParameter key);
+  String getFlag(final ConfigurationParameter key);
+  String getFlag(final ConfigurationParameter key, final ConfigurationParameter fallback);
 }

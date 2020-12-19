@@ -14,6 +14,10 @@ import net.tschmid.sieve.mock.http.HttpResponse;
 
 public class MainEndpoint implements Endpoint {
 
+  public MainEndpoint() {
+  }
+
+  @Override
   public boolean canHandle(HttpRequest request) {
 
     if (request.getMethod().equals("GET") != true)
