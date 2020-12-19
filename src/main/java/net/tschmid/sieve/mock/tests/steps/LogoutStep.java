@@ -9,12 +9,6 @@ import net.tschmid.sieve.mock.tests.TestContext;
  */
 public class LogoutStep implements Step {
 
-  /**
-   * Creates a new instance.
-   */
-  public LogoutStep() {
-  }
-
   @Override
   public boolean is(Element elm) {
     return true;

@@ -22,12 +22,6 @@ import net.tschmid.sieve.mock.exceptions.SieveTestException;
  */
 public class StartTLSStep implements Step {
 
-  /**
-   * Create as new instance.
-   */
-  public StartTLSStep() {    
-  }
-
   @Override
   public boolean is(Element elm) {
     return true;

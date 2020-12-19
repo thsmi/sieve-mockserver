@@ -9,12 +9,6 @@ import net.tschmid.sieve.mock.tests.TestContext;
  */
 public class ReferralStep implements Step {
 
-  /**
-   * Creates a new instance
-   */
-  public ReferralStep() {    
-  }
-
   @Override
   public boolean is(Element elm) {
     return true;
