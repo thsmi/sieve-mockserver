@@ -13,15 +13,15 @@ import net.tschmid.sieve.mock.tests.TestContext;
 public class WaitStep implements Step {
 
   /** Optional attribute, which expects the incoming data to match */
-  public final String ATTR_FOR = "for";
+  public static final String ATTR_FOR = "for";
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
     String token = "";
 
     if (elm.hasAttribute(ATTR_FOR))

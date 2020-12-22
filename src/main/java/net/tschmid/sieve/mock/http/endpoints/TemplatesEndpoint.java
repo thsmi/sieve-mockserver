@@ -21,7 +21,7 @@ import net.tschmid.sieve.mock.http.exceptions.HttpFileNotFound;
 public class TemplatesEndpoint implements Endpoint {
 
   @Override
-  public boolean canHandle(HttpRequest request) {
+  public boolean canHandle(final HttpRequest request) {
 
     if (!request.getMethod().equals("GET"))
       return false;
@@ -33,10 +33,10 @@ public class TemplatesEndpoint implements Endpoint {
   }
 
   @Override
-  public void handle(HttpRequest request, HttpResponse response) throws Exception {
-    String url = "./templates/" + request.getQuery("template") + ".xml";    
+  public void handle(final HttpRequest request, final HttpResponse response) throws Exception {
+    final String url = "./templates/" + request.getQuery("template") + ".xml";    
 
-    URL resource = this.getClass().getResource("./../" + url);
+    final URL resource = this.getClass().getResource("./../" + url);
 
     if (resource == null)
       throw new HttpFileNotFound(url);      

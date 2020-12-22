@@ -74,11 +74,11 @@ public class HttpRequest implements AutoCloseable {
     return this.protocol;
   }
 
-  public boolean hasQuery(String key) {
+  public boolean hasQuery(final String key) {
     return this.query.containsKey(key);
   }
 
-  public String getQuery(String key) {
+  public String getQuery(final String key) {
     return this.query.get(key);
   }
 
@@ -91,7 +91,7 @@ public class HttpRequest implements AutoCloseable {
    * @return
    *   true in case a header exists otherwise false.
    */
-  public boolean hasHeader(String name) {
+  public boolean hasHeader(final String name) {
     return this.header.containsKey(name);
   }
 
@@ -103,20 +103,20 @@ public class HttpRequest implements AutoCloseable {
    * @return
    *   the header value as string or null in case the header does not exits.
    */
-  public String getHeader(String name) {
+  public String getHeader(final String name) {
     return this.header.get(name);
   }
 
-  protected String[] split(String data, String delim, int count) {
+  protected String[] split(final String data, final String delim, final int count) {
 
     if (data == null)
       return new String[0];
 
-    return data.split(delim, 3);
+    return data.split(delim, count);
   }
 
   public HttpRequest getHeader() throws InvalidRequestException, ConnectionException {
-    String[] request = this.split(this.readLine(), " ", 3);
+    final String[] request = this.split(this.readLine(), " ", 3);
 
     if (request.length != 3)
       throw new InvalidRequestException("Invalid Request Line");
@@ -125,19 +125,19 @@ public class HttpRequest implements AutoCloseable {
 
     try {
 
-      String[] path = request[1].split("\\?", 2);
+      final String[] path = request[1].split("\\?", 2);
       this.path = path[0];
 
       this.query.clear();
 
       if (path.length > 1) {
-        String[] query = path[1].split("&");
+        final String[] query = path[1].split("&");
 
-        for (String item : query) {
-          String[] tmp = item.split("=");
+        for (final String item : query) {
+          final String[] tmp = item.split("=");
 
-          String key = java.net.URLDecoder.decode(tmp[0], StandardCharsets.UTF_8.name());
-          String value = java.net.URLDecoder.decode((tmp.length > 1 ? tmp[1] : ""), StandardCharsets.UTF_8.name());
+          final String key = java.net.URLDecoder.decode(tmp[0], StandardCharsets.UTF_8.name());
+          final String value = java.net.URLDecoder.decode((tmp.length > 1 ? tmp[1] : ""), StandardCharsets.UTF_8.name());
 
           this.query.put(key, value);
         }
@@ -150,7 +150,7 @@ public class HttpRequest implements AutoCloseable {
 
     this.header.clear();
     while (true) {
-      String[] header = this.split(this.readLine(), ":", 2);
+      final String[] header = this.split(this.readLine(), ":", 2);
       
       if (header[0].equals(""))
         break;
@@ -162,12 +162,12 @@ public class HttpRequest implements AutoCloseable {
   }
 
   public String getBody() throws Exception {
-    String length = this.header.get("Content-Length");
+    final String length = this.header.get("Content-Length");
 
     if (length == null || length.equals(""))
       throw new Exception("No Content length specified.");
     
-    byte buffer[] = new byte[4096];
+    final byte buffer[] = new byte[4096];
     String data = "";
 
     int count = Integer.parseInt(length.trim());
@@ -186,11 +186,21 @@ public class HttpRequest implements AutoCloseable {
     return data;
   }
 
+  /**
+   * Reads a line terminated by a \r\n sequence from the socket.
+   * It will be blocking. In case the blocking wait was interrupted
+   * an ConnectionException will be thrown.
+   * 
+   * @return
+   *   the line which as read.
+   * 
+   * @throws ConnectionReadException
+   */
   public String readLine() throws ConnectionReadException {
 
     try {
 
-      StringBuffer buffer = new StringBuffer();
+      final StringBuffer buffer = new StringBuffer();
 
       int data;
 
@@ -220,10 +230,21 @@ public class HttpRequest implements AutoCloseable {
     }
   }
 
+  /**
+   * Reads the given number of bytes from the socket.
+   * This will be blocking. In case the blocking wait
+   * was interrupted an ConnectionException will be thrown.
+   * 
+   * @param len
+   *   the number of bytes to read.
+   * @return
+   *   a byte array with the bytes read.
+   * @throws ConnectionException
+   */
   public byte[] read(int len) throws ConnectionException {
 
-    byte[] buffer = new byte[len];
-    int read = 0;
+    final byte[] buffer = new byte[len];
+    int read;
 
     try {
       read = this.in.read(buffer);

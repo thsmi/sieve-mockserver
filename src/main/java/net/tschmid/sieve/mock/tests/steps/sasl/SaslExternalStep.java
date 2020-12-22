@@ -11,12 +11,12 @@ import net.tschmid.sieve.mock.tests.steps.Step;
 public class SaslExternalStep implements Step {
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
     String authorization = "";
 
     if (elm.hasAttribute("authorization"))

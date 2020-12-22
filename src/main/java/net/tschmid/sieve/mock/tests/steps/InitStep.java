@@ -18,7 +18,7 @@ import net.tschmid.sieve.mock.tests.TestContext;
  */
 public class InitStep implements Step {
 
-  private final String INIT_RESPONSE = "" 
+  private static final String INIT_RESPONSE = "" 
       + "\"IMPLEMENTATION\" \"Replay Server\"\r\n" 
       + "\"SASL\" \"%s\"\r\n"
       + "\"SIEVE\" \"fileinto reject envelope vacation imapflags notify subaddress relational comparator-i;ascii-numeric regex\"\r\n"
@@ -26,12 +26,12 @@ public class InitStep implements Step {
       + "OK\r\n";  
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
 
     String sasl = "";
 

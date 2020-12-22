@@ -16,7 +16,7 @@ import net.tschmid.sieve.mock.tests.steps.Step;
  */
 public class SaslStep implements Step {
 
-  /** Manages all supported sasls mechanisms. */
+  /** Manages all supported sasl mechanisms. */
   private final Map<String, Step> mechanisms = new HashMap<>();
 
   /**
@@ -33,12 +33,12 @@ public class SaslStep implements Step {
   }
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
 
     if (!elm.getNodeName().equals("sasl"))
       return false;
 
-    String sasl = elm.getAttribute("mechanism");
+    final String sasl = elm.getAttribute("mechanism");
 
     if (!mechanisms.containsKey(sasl))
       return false;
@@ -47,8 +47,8 @@ public class SaslStep implements Step {
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
-    String sasl = elm.getAttribute("mechanism");    
+  public void execute(final TestContext context, final Element elm) throws Exception {
+    final String sasl = elm.getAttribute("mechanism");    
 
     if (!mechanisms.containsKey(sasl))
       throw new SieveTestException("Unknown sasl mechanism " + sasl + " for element " + elm.getNodeName() + " specified");

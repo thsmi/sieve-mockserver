@@ -17,7 +17,7 @@ import net.tschmid.sieve.mock.tests.TestRunner;
 public class TestEndpoint implements Endpoint {
 
   @Override
-  public boolean canHandle(HttpRequest request) {
+  public boolean canHandle(final HttpRequest request) {
     if (request.getPath().equals("/test"))
       return true;
 
@@ -25,7 +25,7 @@ public class TestEndpoint implements Endpoint {
   }
 
   @Override
-  public void handle(HttpRequest request, HttpResponse response) throws Exception {
+  public void handle(final HttpRequest request, final HttpResponse response) throws Exception {
     
     // Get the current status
     if (request.getMethod().equals("GET")) {

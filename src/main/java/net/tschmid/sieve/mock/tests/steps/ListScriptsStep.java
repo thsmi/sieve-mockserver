@@ -13,12 +13,12 @@ import net.tschmid.sieve.mock.tests.TestContext;
 public class ListScriptsStep implements Step {
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
     String[] scripts = { };
 
     if (elm.hasAttribute("scripts"))
@@ -31,7 +31,7 @@ public class ListScriptsStep implements Step {
 
     String result = "";
   
-    for (String script : scripts) {
+    for (final String script : scripts) {
       result += "\""+script+"\"\r\n";
     }
   

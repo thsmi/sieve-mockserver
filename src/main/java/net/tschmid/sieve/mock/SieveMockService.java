@@ -25,9 +25,18 @@ import net.tschmid.sieve.mock.http.endpoints.TestEndpoint;
 // keytool -importkeystore -srckeystore keystore.jks -destkeystore keystore.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass secret
 
 
+/**
+ * The class containing the main entry point.
+ */
 public class SieveMockService {
 
-	public static void main(String[] args) throws Exception {
+	/**
+	 * The main entry point
+	 * @param args
+	 *   the command line arguments.
+	 * @throws Exception
+	 */
+	public static void main(final String[] args) throws Exception {
 		(new HttpServer())
 			.addEndpoint(new MainEndpoint())
 			.addEndpoint(new TemplatesEndpoint())

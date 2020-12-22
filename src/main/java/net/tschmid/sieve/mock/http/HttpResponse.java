@@ -26,15 +26,16 @@ import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionWriteExceptio
 
 public class HttpResponse implements AutoCloseable {
 
-  private final BufferedOutputStream out;
-
   private String status = "200 OK";
   private String contentType = "text/plain";
+
+  private final BufferedOutputStream out;
+
   private boolean headerSend = false;
 
   private final Map<String, String> headers = new HashMap<>();
 
-  public HttpResponse(Socket connection) throws IOException {
+  public HttpResponse(final Socket connection) throws IOException {
     this.out = new BufferedOutputStream(connection.getOutputStream());
   }
 
@@ -51,7 +52,7 @@ public class HttpResponse implements AutoCloseable {
     return this.status;
   }
 
-  public HttpResponse setStatus(String status) throws HttpException {
+  public HttpResponse setStatus(final String status) throws HttpException {
     if (this.isHeaderSend())
       throw new HttpImmutableHeader();
       
@@ -63,7 +64,7 @@ public class HttpResponse implements AutoCloseable {
     return this.contentType;
   }
 
-	public HttpResponse setContentType(String contentType) throws HttpException {
+	public HttpResponse setContentType(final String contentType) throws HttpException {
     if (this.isHeaderSend())
       throw new HttpImmutableHeader();
           
@@ -87,7 +88,7 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }  
 
-  public HttpResponse sendRaw(byte[] data) throws ConnectionWriteException {
+  public HttpResponse sendRaw(final byte[] data) throws ConnectionWriteException {
     try {
       this.out.write(data);
     } catch (IOException e) {
@@ -96,7 +97,7 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
-  public HttpResponse sendRaw(String data) throws ConnectionWriteException {
+  public HttpResponse sendRaw(final String data) throws ConnectionWriteException {
     return this.sendRaw(data.getBytes());
   }
 
@@ -122,16 +123,16 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
-  public HttpResponse sendBody(String body) throws ConnectionWriteException {
+  public HttpResponse sendBody(final String body) throws ConnectionWriteException {
     this.sendRaw(body);
     return this;
   }
 
-  public HttpResponse send(InputStream stream) throws HttpException, ConnectionWriteException {
+  public HttpResponse send(final InputStream stream) throws HttpException, ConnectionWriteException {
 
     try {
-      BufferedInputStream bis = new BufferedInputStream(stream);
-      ByteArrayOutputStream buf = new ByteArrayOutputStream();
+      final BufferedInputStream bis = new BufferedInputStream(stream);
+      final ByteArrayOutputStream buf = new ByteArrayOutputStream();
 
       int result = bis.read();
       while (result != -1) {
@@ -148,7 +149,7 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
-  public HttpResponse send(String body) throws HttpException, ConnectionWriteException {
+  public HttpResponse send(final String body) throws HttpException, ConnectionWriteException {
 
     if (!this.isHeaderSend())
       this.sendHeader();
@@ -174,7 +175,7 @@ public class HttpResponse implements AutoCloseable {
    * @throws HttpImmutableHeader
    *   in case the header was already transmitted.
    */
-  public void addHeader(String header, String value) throws HttpImmutableHeader {
+  public void addHeader(final String header, final String value) throws HttpImmutableHeader {
     if (this.isHeaderSend()) 
       throw new HttpImmutableHeader();
 

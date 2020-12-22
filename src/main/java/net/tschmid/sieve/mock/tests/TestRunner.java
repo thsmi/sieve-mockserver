@@ -67,12 +67,16 @@ public class TestRunner {
     return flags;    
   }
 
+  /**
+   * @return
+   *   the current logger
+   */
   public ActivityLog getLog() {
     return ActivityLog.getInstance();
   }
 
   public boolean isRunning() {
-    for (TestServer server: this.servers) {
+    for (final TestServer server: this.servers) {
       if (server.isAlive())
         return true;
     }
@@ -80,13 +84,13 @@ public class TestRunner {
     return false;
   }
 
-  public void start(String test) throws Exception {
+  public void start(final String test) throws Exception {
     // Ensure any previous session is closed.
     this.stop();
 
 
     // Initialize the test steps, they are stateless and can be reused for multiple severs.
-    Map<String, Step> steps = new HashMap<>();
+    final Map<String, Step> steps = new HashMap<>();
     steps.put("sasl", new SaslStep());
     steps.put("init", new InitStep());
     steps.put("logout", new LogoutStep());
@@ -100,21 +104,21 @@ public class TestRunner {
     steps.put("wait", new WaitStep());
 
     // Start parsing the xml.
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    InputSource is = new InputSource(new StringReader(test));
-    Document doc = dBuilder.parse(is);
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    final InputSource is = new InputSource(new StringReader(test));
+    final Document doc = dBuilder.parse(is);
 
     doc.getDocumentElement().normalize();    
 
-    Element root = doc.getDocumentElement();
+    final Element root = doc.getDocumentElement();
 
     if (!root.getNodeName().equals("test"))
       throw new SieveTestException("Expected root node test");      
 
-    NodeList children = root.getChildNodes();
+    final NodeList children = root.getChildNodes();
     for (int idx = 0; idx < children.getLength(); idx++) {
-      Node child = children.item(idx);
+      final Node child = children.item(idx);
 
       if (child.getNodeType() != Node.ELEMENT_NODE)
         continue;
@@ -168,7 +172,7 @@ public class TestRunner {
 
   public void stop() throws Exception {
 
-    for (TestServer server : this.servers)
+    for (final TestServer server : this.servers)
       server.stop();
 
     this.servers.clear();

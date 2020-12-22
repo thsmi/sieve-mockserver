@@ -12,7 +12,7 @@ import net.tschmid.sieve.mock.log.ActivityLog;
 public class LogEndpoint implements Endpoint {
 
   @Override
-  public boolean canHandle(HttpRequest request) {
+  public boolean canHandle(final HttpRequest request) {
     if (!request.getMethod().equals("GET"))
       return false;
 
@@ -23,12 +23,12 @@ public class LogEndpoint implements Endpoint {
   }
 
   @Override
-  public void handle(HttpRequest request, HttpResponse response) throws Exception {
+  public void handle(final HttpRequest request, final HttpResponse response) throws Exception {
 
-    WebSocket socket = new WebSocket(request, response);
+    final WebSocket socket = new WebSocket(request, response);
     socket.upgrade();
 
-    LogListener listener = (String msg) -> { 
+    final LogListener listener = (String msg) -> { 
       try {
         socket.send(msg);
       } catch (Exception e){

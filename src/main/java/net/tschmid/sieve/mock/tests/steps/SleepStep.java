@@ -18,12 +18,12 @@ public class SleepStep implements Step {
   public static String ATTR_DURATION = "duration";
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
 
     int duration = 10 * 1000;
 

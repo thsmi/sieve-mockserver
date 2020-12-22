@@ -22,7 +22,7 @@ import net.tschmid.sieve.mock.http.websocket.WebSocketMessage;
  * Upgrades the http connection to a websocket connection.
  */
 public class WebSocket {
-
+  
   public final static String HEADER_UPGRADE = "Upgrade";
   public final static String HEADER_CONNECTION = "Connection";
   public final static String HEADER_SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
@@ -31,6 +31,7 @@ public class WebSocket {
   private final HttpRequest request;
   private final HttpResponse response;
 
+  /** tracks if the request was upgraded into a websocket */
   private boolean upgraded = false;
 
   /**
@@ -68,7 +69,7 @@ public class WebSocket {
     String secKey = this.request.getHeader(HEADER_SEC_WEBSOCKET_KEY);
 
     try {
-      MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+      final MessageDigest crypt = MessageDigest.getInstance("SHA-1");
       crypt.reset();
       crypt.update(secKey.getBytes("UTF-8"));
       crypt.update("258EAFA5-E914-47DA-95CA-C5AB0DC85B11".getBytes("UTF-8"));
@@ -103,13 +104,13 @@ public class WebSocket {
    * @throws WebSocketException
    * @throws ConnectionWriteException
    */
-  public WebSocket send(String data) throws WebSocketException, ConnectionWriteException {
+  public WebSocket send(final String data) throws WebSocketException, ConnectionWriteException {
     if (!this.upgraded)
       throw new WebSocketException("Socket not upgraded");
 
-    byte[] bytes = data.getBytes();
+    final byte[] bytes = data.getBytes();
 
-    byte[] header = new byte[2];
+    final byte[] header = new byte[2];
     header[0] = (byte) 0b10000001;
 
     byte[] length;
@@ -146,19 +147,31 @@ public class WebSocket {
     return this;
   }
 
+  /**
+   * Reads 16 bits from the websocket connection
+   * @return
+   *   the 16 bit value as integer.
+   * @throws ConnectionException
+   */
   protected int read16() throws ConnectionException {
-    byte[] bytes = this.request.read(2);
+    final byte[] bytes = this.request.read(2);
     return (bytes[0] << (1 * 8)) + (bytes[1] << (0 * 8));
   }
 
+  /**
+   * Reads 64bits from the websocket connection
+   * @return
+   *   the 64bit value as integer
+   * @throws ConnectionException
+   */
   protected int read64() throws ConnectionException {
-    byte[] bytes = this.request.read(8);
+    final byte[] bytes = this.request.read(8);
     return 0 + (bytes[0] << (7 * 8)) + (bytes[1] << (6 * 8)) + (bytes[2] << (5 * 8)) + (bytes[3] << (4 * 8))
         + (bytes[4] << (3 * 8)) + (bytes[5] << (2 * 8)) + (bytes[6] << (1 * 8)) + (bytes[7] << (0 * 8));
   }
 
-  protected int readLength(byte header) throws ConnectionException {
-    int length = header & 0b01111111;
+  protected int readLength(final byte header) throws ConnectionException {
+    final int length = header & 0b01111111;
 
     if (length == 126)
       return this.read16();
@@ -169,9 +182,9 @@ public class WebSocket {
     return length;
   }
 
-  protected byte[] readMaskedData(int length) throws ConnectionException {
-    byte[] mask = this.request.read(4);
-    byte[] data = this.request.read(length);
+  protected byte[] readMaskedData(final int length) throws ConnectionException {
+    final byte[] mask = this.request.read(4);
+    final byte[] data = this.request.read(length);
 
     for (int i=0; i<data.length; i++)
       data[i] = (byte)(data[i] ^ (mask[i % 4]));
@@ -194,13 +207,13 @@ public class WebSocket {
     if (!this.upgraded)
       throw new WebSocketException("Socket not upgraded");
 
-    byte[] header = this.request.read(2);
+    final byte[] header = this.request.read(2);
 
-    boolean isFinal = (header[0] & 0b10000000) != 0;
+    final boolean isFinal = (header[0] & 0b10000000) != 0;
     
-    OpCode opcode = OpCode.valueOf((byte)(header[0] & 0b00001111));
+    final OpCode opcode = OpCode.valueOf((byte)(header[0] & 0b00001111));
 
-    int length = this.readLength((byte)header[1]);
+    final int length = this.readLength((byte)header[1]);
 
     if (opcode == CONNECTION_CLOSE_FRAME) {
       throw new WebSocketException("Connection closed by server");

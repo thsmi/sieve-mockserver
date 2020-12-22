@@ -17,7 +17,12 @@ public enum OpCode {
   /** the opcodes unique value */
   private final int value;
 
-  OpCode(int value) {
+  /**
+   * Creates a new instance
+   * @param value
+   *   the op codes value.
+   */
+  OpCode(final int value) {
     this.value = value;
   }
 
@@ -40,9 +45,9 @@ public enum OpCode {
    * @throws WebSocketException
    *   an exception in caee the opcode can not be converted because it is unknown.
    */
-  public static OpCode valueOf(int opcode) throws WebSocketException {
+  public static OpCode valueOf(final int opcode) throws WebSocketException {
 
-    for (OpCode item : OpCode.values()) {
+    for (final OpCode item : OpCode.values()) {
       if (item.getValue() == opcode)
         return item;
     }

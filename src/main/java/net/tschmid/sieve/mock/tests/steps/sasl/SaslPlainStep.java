@@ -11,12 +11,12 @@ import net.tschmid.sieve.mock.tests.steps.Step;
 public class SaslPlainStep implements Step {
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
     /*
      * [22:54:02.845 server2] Client -> Server: AUTHENTICATE "PLAIN" "xxxxxxxxx"
      * [22:54:02.990 server2] Server -> Client OK

@@ -17,7 +17,7 @@ import net.tschmid.sieve.mock.tests.TestRunner;
 public class ConfigurationEndpoint implements Endpoint {
 
   @Override
-  public boolean canHandle(HttpRequest request) {
+  public boolean canHandle(final HttpRequest request) {
     if (request.getPath().equals("/flags"))
       return true;
 
@@ -28,7 +28,7 @@ public class ConfigurationEndpoint implements Endpoint {
   }
 
   @Override
-  public void handle(HttpRequest request, HttpResponse response) throws Exception {
+  public void handle(final HttpRequest request, final HttpResponse response) throws Exception {
 
     if (request.getMethod().equals("GET") && request.getPath().equals("/flags")) {
       response

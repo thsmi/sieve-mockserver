@@ -16,16 +16,16 @@ import net.tschmid.sieve.mock.tests.steps.Step;
 public abstract class SaslScramSha implements Step {
 
   /** The optional node name for the first client message */
-  public final String NODE_FIRST_REQUEST = "firstrequest";
+  public static final String NODE_FIRST_REQUEST = "firstrequest";
   /** The optional node name for the first server message */
-  public final String NODE_FIRST_RESPONSE = "firstresponse";
+  public static final String NODE_FIRST_RESPONSE = "firstresponse";
   /** The optional node name for the final client message */
-  public final String NODE_FINAL_REQUEST = "finalrequest";
+  public static final String NODE_FINAL_REQUEST = "finalrequest";
   /** The optional node name for the final server message */
-  public final String NODE_FINAL_RESPONSE = "finalresponse";
+  public static final String NODE_FINAL_RESPONSE = "finalresponse";
 
   /** The optional attribute name, indicating that an inline response should be used */
-  public final String ATTR_INLINE = "inline";
+  public static final String ATTR_INLINE = "inline";
 
   /**
    * Retrieves the value of a child element.
@@ -40,12 +40,12 @@ public abstract class SaslScramSha implements Step {
    * @return
    *   the child element's value or in case it does not exist the fallback value.
    */
-  protected String getChildValue(Element root, String name, String fallback) {
+  protected String getChildValue(Element root, String name, final String fallback) {
 
-    NodeList children = root.getChildNodes();
+    final NodeList children = root.getChildNodes();
 
     for (int idx = 0; idx < children.getLength(); idx++) {
-      Node child = children.item(idx);
+      final Node child = children.item(idx);
 
       if (child.getNodeType() != Node.ELEMENT_NODE)
         continue;
@@ -97,12 +97,12 @@ public abstract class SaslScramSha implements Step {
   abstract protected String getMechanism();
 
   @Override
-  public boolean is(Element elm) {
+  public boolean is(final Element elm) {
     return true;
   }
 
   @Override
-  public void execute(TestContext context, Element elm) throws Exception {
+  public void execute(final TestContext context, final Element elm) throws Exception {
     /*
      * We use test sequence from the RFC 5802
      *
@@ -123,13 +123,13 @@ public abstract class SaslScramSha implements Step {
      * == S: dj1ybUY5cHFWOFM3c3VBb1pXamE0ZEpSa0ZzS1E9
      */
 
-    String firstRequest = this.getChildValue(
+    final String firstRequest = this.getChildValue(
       elm, NODE_FIRST_REQUEST, this.getDefaultFirstRequest());
-    String firstResponse = this.getChildValue(
+    final String firstResponse = this.getChildValue(
       elm, NODE_FIRST_RESPONSE, this.getDefaultFirstResponse());
-    String finalRequest = this.getChildValue(
+    final String finalRequest = this.getChildValue(
       elm, NODE_FINAL_REQUEST, this.getDefaultFinalRequest());
-    String finalResponse = this.getChildValue(
+    final String finalResponse = this.getChildValue(
       elm, NODE_FINAL_RESPONSE, this.getDefaultFinalResponse());                    
 
     context.getServer()

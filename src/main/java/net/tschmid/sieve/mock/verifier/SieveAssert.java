@@ -16,7 +16,7 @@ public class SieveAssert {
      *   an exception in case the string does not meet the expectation.
      *   
      */
-    public static void assertTrue(String actual, String expected) throws SieveTestException {
+    public static void assertTrue(final String actual, final String expected) throws SieveTestException {
 	if (actual == null || actual.equals("") )
 	    throw new SieveTestException(expected + " expected but got an empty string");
 	

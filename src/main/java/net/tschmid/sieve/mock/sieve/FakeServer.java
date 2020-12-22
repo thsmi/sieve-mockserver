@@ -9,7 +9,18 @@
 
 package net.tschmid.sieve.mock.sieve;
 
-import static net.tschmid.sieve.mock.config.ConfigurationParameter.*;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SIMULATE_DELAY;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SIMULATE_FRAGMENTATION;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.SUPPORT_TLS;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.CUSTOM_KEYSTORE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.DEFAULT_KEYSTORE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.CUSTOM_KEYSTORE_PASSPHRASE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.DEFAULT_KEYSTORE_PASSPHRASE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.CUSTOM_TRUSTSTORE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.DEFAULT_TRUSTSTORE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.CUSTOM_TRUSTSTORE_PASSPHRASE;
+import static net.tschmid.sieve.mock.config.ConfigurationParameter.DEFAULT_TRUSTSTORE_PASSPHRASE;
+
 import static net.tschmid.sieve.mock.verifier.SieveAssert.assertTrue;
 
 import java.io.IOException;
@@ -85,7 +96,7 @@ public class FakeServer {
    * @return a self reference
    * @throws Exception
    */
-  public FakeServer waitFor(String expected, Object... args) throws Exception {
+  public FakeServer waitFor(final String expected, final Object... args) throws Exception {
     assertTrue(socket.readLine(), String.format(expected, args));
     return this;
   }
@@ -113,7 +124,7 @@ public class FakeServer {
    * @return
    *    a self reference
    */
-  public FakeServer doReturn(String data, Object... args) {
+  public FakeServer doReturn(String data, final Object... args) {
 
     // Simulate a delayed response
     if (this.getFlags().isEnabled(SIMULATE_DELAY))
@@ -121,15 +132,15 @@ public class FakeServer {
 
     data = String.format(data, args);
 
-    if (this.getFlags().isEnabled(SIMULATE_FRAGMENTATION) == false) {
+    if (this.getFlags().isEnabled(SIMULATE_FRAGMENTATION)) {
       socket.sendPacket(data);
       return this;
     }
 
     // ok simulate fragmentation...
-    String[] lines = data.split("\\r\\n");
+    final String[] lines = data.split("\\r\\n");
 
-    for (String line : lines) {
+    for (final String line : lines) {
       socket.sendPacket(line + "\r\n");
       sleep(2000);
     }
@@ -203,7 +214,15 @@ public class FakeServer {
     this.socket = null;
   }
 
-  public FakeServer log(String msg) {
+  /**
+   * Logs the given message into the activity log.
+   * It will be prefixed with the server ip and port.
+   * @param msg
+   *   the message to be logged
+   * @return
+   *   a self reference.
+   */
+  public FakeServer log(final String msg) {
     ActivityLog.getInstance().log(""
       + "[127.0.0.1:"+this.getPort() +"]"
       + " " + msg);
