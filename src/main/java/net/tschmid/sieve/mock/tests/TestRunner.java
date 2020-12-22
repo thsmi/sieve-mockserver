@@ -24,13 +24,14 @@ import net.tschmid.sieve.mock.tests.steps.CapabilityStep;
 import net.tschmid.sieve.mock.tests.steps.DeleteScriptStep;
 import net.tschmid.sieve.mock.tests.steps.InitStep;
 import net.tschmid.sieve.mock.tests.steps.ListScriptsStep;
+import net.tschmid.sieve.mock.tests.steps.LogStep;
 import net.tschmid.sieve.mock.tests.steps.LogoutStep;
 import net.tschmid.sieve.mock.tests.steps.ReferralStep;
+import net.tschmid.sieve.mock.tests.steps.SleepStep;
+import net.tschmid.sieve.mock.tests.steps.WaitStep;
 import net.tschmid.sieve.mock.tests.steps.StartTLSStep;
 import net.tschmid.sieve.mock.tests.steps.Step;
 import net.tschmid.sieve.mock.tests.steps.sasl.SaslStep;
-
-
 
 public class TestRunner {
 
@@ -94,6 +95,9 @@ public class TestRunner {
     steps.put("referral", new ReferralStep());
     steps.put("starttls", new StartTLSStep());
     steps.put("capability", new CapabilityStep());    
+    steps.put("log", new LogStep());
+    steps.put("sleep", new SleepStep());
+    steps.put("wait", new WaitStep());
 
     // Start parsing the xml.
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -122,7 +126,7 @@ public class TestRunner {
       }
 
       if (child.getNodeName().equals("log")) {
-        ActivityLog.getInstance().log(((Element)child).getAttribute("msg"));
+        ActivityLog.getInstance().log(child.getTextContent().trim());
         continue;
       }
 

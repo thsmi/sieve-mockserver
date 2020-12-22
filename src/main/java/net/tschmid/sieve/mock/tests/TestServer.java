@@ -9,7 +9,7 @@ import org.w3c.dom.NodeList;
 
 import net.tschmid.sieve.mock.config.Configurable;
 import net.tschmid.sieve.mock.config.ConfigurationParameter;
-import net.tschmid.sieve.mock.log.ActivityLog;
+import net.tschmid.sieve.mock.exceptions.SieveTestException;
 import net.tschmid.sieve.mock.sieve.FakeServer;
 import net.tschmid.sieve.mock.tests.steps.Step;
 
@@ -79,48 +79,12 @@ public class TestServer implements Runnable, TestContext {
     return this;
   }
 
-
-  protected void doWait(final Element elm) throws Exception {
-    String token = "";
-
-    if (elm.hasAttribute("for"))
-      token = elm.getAttribute("for");
-
-    if (token.equals("")) {
-      this.getServer().waitForAnything();
-      return;
-    }
-
-    this.getServer().waitFor(token);
-    return;
-  }
-
-  protected void doSleep(final Element elm) {
-    int duration = 10 * 1000;
-
-    if (elm.hasAttribute("duration"))
-      duration = Integer.parseInt(elm.getAttribute("duration")) * 1000;
-
-    this.getServer().sleep(duration);
-  }
-
   protected void doSuccess(Element elm) {
     String msg = "Test passed";
     if (elm.hasAttribute("msg"))
       msg = elm.getAttribute("msg");
 
-    this.doLog(msg);
-  }
-
-  protected void doLog(Element elm) {
-    ActivityLog.getInstance().log(elm.getAttribute("msg"));
-  }
-
-  protected void doLog(String msg) {
-    ActivityLog.getInstance().log(""
-      + "["+this.server.getPort() +"]"      
-      + " " + msg);
-    // TODO Trigger a onLog callback
+    this.getServer().log(msg);
   }
 
   protected void doTest(final Element elm) throws Exception {
@@ -132,21 +96,6 @@ public class TestServer implements Runnable, TestContext {
         this.steps.get(name).execute(this, elm);
         return;
       }
-    }
-
-    if (elm.getNodeName().equals("wait")) {
-      doWait(elm);
-      return;
-    }
-
-    if (elm.getNodeName().equals("sleep")) {
-      doSleep(elm);
-      return;
-    }
-
-    if (elm.getNodeName().equals("log")) {
-      doLog(elm);
-      return;
     }
 
     if (elm.getNodeName().equals("success")) {
@@ -182,6 +131,9 @@ public class TestServer implements Runnable, TestContext {
 
       } catch (SocketException | InterruptedException ex) {
         break;
+      }
+      catch (SieveTestException ex) {
+        this.getServer().log(ex.getMessage());
       }
       catch (Exception ex) {
         ex.printStackTrace();

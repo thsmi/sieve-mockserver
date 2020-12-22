@@ -62,14 +62,21 @@ public class FakeServer {
   }
 
   /**
-   * Waits for the expected line to arrive. In case of a difference an exception
-   * will be thrown.
+   * Waits for the expected line to arrive. 
    * 
-   * @param expected the string with the expected response.
+   * In case the received string differs an exception will be thrown.
+   * @param expected
+   *   the string which should be used for the comparison.
+   *   It is a formatted string which allows placeholders.
+   * @param args
+   *   arguments which should replace placeholders.
    * @return a self reference
    * @throws Exception
    */
-  public FakeServer waitFor(String expected) throws Exception {
+  public FakeServer waitFor(String expected, Object... args) throws Exception {
+
+    expected = String.format(expected, args);
+
     assertTrue(socket.readLine(), expected);
     return this;
   }
@@ -86,6 +93,17 @@ public class FakeServer {
     return this;
   }
 
+  /**
+   * Returns a message to the client.
+   * 
+   * @param data
+   *   the message to be returned. 
+   *   It is a formatted string which allows placeholders.
+   * @param args
+   *   arguments which should replace the place holders.
+   * @return
+   *    a self reference
+   */
   public FakeServer doReturn(String data, Object... args) {
 
     // Simulate a delayed response
@@ -180,7 +198,6 @@ public class FakeServer {
     ActivityLog.getInstance().log(""
       + "[127.0.0.1:"+this.getPort() +"]"
       + " " + msg);
-    // TODO Trigger a onLog callback
 
     return this;
   }

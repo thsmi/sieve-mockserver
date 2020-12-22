@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing SASL EXTERNAL" />
+  <log>Testing SASL EXTERNAL</log>
 
   <server port="4190">
     <init sasl="EXTERNAL" />

@@ -50,8 +50,8 @@ public abstract class SaslScramSha implements Step {
       if (child.getNodeType() != Node.ELEMENT_NODE)
         continue;
 
-      if (child.getNodeName().equals(NODE_FIRST_REQUEST))
-        return child.getNodeValue().trim();
+      if (child.getNodeName().equals(name))
+        return child.getTextContent().trim();
     }
 
     return fallback;
@@ -126,25 +126,34 @@ public abstract class SaslScramSha implements Step {
     String firstRequest = this.getChildValue(
       elm, NODE_FIRST_REQUEST, this.getDefaultFirstRequest());
     String firstResponse = this.getChildValue(
-      elm, NODE_FIRST_RESPONSE, this.getDefaultFirstRequest());
+      elm, NODE_FIRST_RESPONSE, this.getDefaultFirstResponse());
     String finalRequest = this.getChildValue(
-      elm, NODE_FINAL_REQUEST, this.getDefaultFirstRequest());
+      elm, NODE_FINAL_REQUEST, this.getDefaultFinalRequest());
     String finalResponse = this.getChildValue(
-      elm, NODE_FINAL_RESPONSE, this.getDefaultFirstRequest());                    
+      elm, NODE_FINAL_RESPONSE, this.getDefaultFinalResponse());                    
 
     context.getServer()
-      .waitFor("AUTHENTICATE \""+this.getMechanism()+"\" \""+firstRequest+"\"")
-      .doReturn("\""+firstResponse+"\"\r\n")
-      .waitFor("\""+finalRequest+"\"");
+      .log("Starting SASL "+this.getMechanism()+" Authentication")
+      .log("Waiting for first request")
+      .waitFor("AUTHENTICATE \"%s\" \"%s\"", this.getMechanism(), firstRequest)
+      .log("Sending first response")
+      .doReturn("\"%s\"\r\n", firstResponse)
+      .log("Waiting for final request")
+      .waitFor("\"%s\"", finalRequest);
 
     if (elm.hasAttribute(ATTR_INLINE)) {
-      context.getServer().doReturn("OK (SASL \"" + finalResponse + "\")\r\n");
+      context.getServer()
+        .log("Sending inline final response and signal completion")
+        .doReturn("OK (SASL \"%s\")\r\n", finalResponse);
       return;
     }
 
     context.getServer()
-      .doReturn(finalResponse + "\r\n")
+      .log("Sending final response")
+      .doReturn("\"%s\"\r\n", finalResponse)
+      .log("Waiting for empty request")
       .waitFor("\"\"")
+      .log("Signal completion")
       .doReturn("OK\r\n");
   }  
   

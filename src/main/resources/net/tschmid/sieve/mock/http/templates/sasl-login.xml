@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing SASL LOGIN" />
+  <log>Testing SASL LOGIN</log>
 
   <server port="4190">
     <init sasl="LOGIN" />
     <starttls sasl="LOGIN" />
     <sasl mechanism="LOGIN" />
-    <listscripts />
+    <listscripts/>
 
     <success msg="SASL LOGIN test passed" />
     <logout />

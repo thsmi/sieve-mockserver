@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log>Testing DELETESCRIPT command</log>
+  <log>Testing Bad Cert Reconnect</log>
 
   <server port="4190">
     <init sasl="PLAIN" />
@@ -8,10 +8,8 @@
     <sasl mechanism="PLAIN" />
 
     <listscripts scripts="SCRIPTS" />
-    <deletescript script="SCRIPTS" />
-    <listscripts scripts="" />
 
-    <success msg="DELETESCRIPT passed" />
+    <success msg="Bad Cert Reconnect" />
     <logout />    
   </server>
 </test> 	

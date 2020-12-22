@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing Referral on AUTHENTICATION" />
+  <log>Testing Referral on AUTHENTICATION</log>
 
   <server port="4190">
     <init sasl="LOGIN" />

@@ -3,5 +3,5 @@
   <init sasl="LOGIN" />
   <listscripts />
   <sleep duration="10" />
-  <log msg="Anonymous login test passed" />
+  <log>Anonymous login test passed</log>
 </test>

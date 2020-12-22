@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing Referral on STARTTLS" />
+  <log>Testing Referral on STARTTLS</log>
 
   <server port="4190">
     <init sasl="PLAIN" />

@@ -4,6 +4,12 @@ import org.w3c.dom.Element;
 
 import net.tschmid.sieve.mock.tests.TestContext;
 
+/**
+ * Waits for the LISTSCRIPTS command and returns the scripts 
+ * specified in the script attribute.
+ * 
+ * In case the attribute is omitted and empty list is returned.
+ */
 public class ListScriptsStep implements Step {
 
   @Override
@@ -13,13 +19,15 @@ public class ListScriptsStep implements Step {
 
   @Override
   public void execute(TestContext context, Element elm) throws Exception {
-    String[] scripts = { "SCRIPT" };
+    String[] scripts = { };
 
     if (elm.hasAttribute("scripts"))
       scripts = elm.getAttribute("scripts").split(";");
 
 
-    context.getServer().waitFor("LISTSCRIPTS");
+    context.getServer()
+      .log("Waiting for LISTSCRIPT command")
+      .waitFor("LISTSCRIPTS");
 
     String result = "";
   

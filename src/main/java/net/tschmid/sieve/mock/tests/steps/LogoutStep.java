@@ -17,6 +17,7 @@ public class LogoutStep implements Step {
   @Override
   public void execute(TestContext context, Element elm) throws Exception {
     context.getServer()
+      .log("Waiting for LOGOUT command")
       .waitFor("LOGOUT")
       .doReturn("OK\r\n")
       .close();

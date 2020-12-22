@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing DELETESCRIPT command" />
+  <log>Testing DELETESCRIPT command</log>
 
   <server port="4190">
     <init sasl="PLAIN" />

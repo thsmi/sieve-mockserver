@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log>Testing SASL SCRAM-SHA-1</log>
+  <log>Testing SASL SCRAM-SHA-1 (inline)</log>
   <!-- 
     Uses the test vectors from RFC5802.
     This means the username, password and nonce have to be well known 
@@ -15,10 +15,10 @@
   <server port="4190">
     <init sasl="SCRAM-SHA-1" />
     <starttls sasl="SCRAM-SHA-1" />
-    <sasl mechanism="SCRAM-SHA-1" />
+    <sasl mechanism="SCRAM-SHA-1" inline="true" />
     <listscripts />
 
     <logout />
-    <success msg="✓ SASL SCRAM-SHA-1 test passed" />
+    <success msg="✓ SASL SCRAM-SHA-1 test passed" />    
   </server>
 </test>

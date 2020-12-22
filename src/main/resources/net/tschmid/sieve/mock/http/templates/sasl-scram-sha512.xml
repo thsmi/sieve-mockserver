@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <test>
-  <log msg="Testing SASL SCRAM-SHA-512" />
+  <log>Testing SASL SCRAM-SHA-512</log>
 
   <server port="4190">
     <init sasl="SCRAM-SHA-512" />
