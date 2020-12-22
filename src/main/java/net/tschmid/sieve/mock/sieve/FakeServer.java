@@ -174,7 +174,7 @@ public class FakeServer {
    *            the number of milliseconds to sleep.
    * @return a self reference
    */
-  public FakeServer sleep(long duration) {
+  public FakeServer sleep(final long duration) {
 
     try {
       Thread.currentThread().sleep(duration);

@@ -24,7 +24,7 @@ public class TestServer implements Runnable, TestContext {
 
   private final Map<String, Step> steps;
 
-  public TestServer(Map<String, Step> steps) {
+  public TestServer(final Map<String, Step> steps) {
     this.steps = steps;    
   }
 
@@ -62,7 +62,7 @@ public class TestServer implements Runnable, TestContext {
     return this.thread.isAlive();
   }
 
-  public TestServer start(Element root, Configurable flags) throws Exception {
+  public TestServer start(final Element root, final Configurable flags) throws Exception {
 
     if (this.isAlive())
       throw new Exception("Server already started");
@@ -79,7 +79,7 @@ public class TestServer implements Runnable, TestContext {
     return this;
   }
 
-  protected void doSuccess(Element elm) {
+  protected void doSuccess(final Element elm) {
     String msg = "Test passed";
     if (elm.hasAttribute("msg"))
       msg = elm.getAttribute("msg");
@@ -89,7 +89,7 @@ public class TestServer implements Runnable, TestContext {
 
   protected void doTest(final Element elm) throws Exception {
 
-    String name = elm.getNodeName();
+    final String name = elm.getNodeName();
 
     if (this.steps.containsKey(name)) {
       if (this.steps.get(name).is(elm)) {
@@ -115,10 +115,10 @@ public class TestServer implements Runnable, TestContext {
 
         this.getServer().log("Starting Test Sequence");
 
-        NodeList children = root.getChildNodes();
+        final NodeList children = root.getChildNodes();
 
         for (int idx = 0; idx < children.getLength(); idx++) {
-          Node child = children.item(idx);
+          final Node child = children.item(idx);
 
           if (child.getNodeType() != Node.ELEMENT_NODE)
             continue;

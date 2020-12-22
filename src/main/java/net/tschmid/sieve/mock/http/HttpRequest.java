@@ -172,7 +172,7 @@ public class HttpRequest implements AutoCloseable {
 
     int count = Integer.parseInt(length.trim());
     while (count > 0) {    
-      int read = this.in.read(buffer, 0, Math.min(count, buffer.length));
+      final int read = this.in.read(buffer, 0, Math.min(count, buffer.length));
       
       if (read > 0)
         data += new String(buffer, 0, read);  
@@ -241,7 +241,7 @@ public class HttpRequest implements AutoCloseable {
    *   a byte array with the bytes read.
    * @throws ConnectionException
    */
-  public byte[] read(int len) throws ConnectionException {
+  public byte[] read(final int len) throws ConnectionException {
 
     final byte[] buffer = new byte[len];
     int read;

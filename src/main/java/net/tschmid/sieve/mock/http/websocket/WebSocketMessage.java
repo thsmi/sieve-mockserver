@@ -6,7 +6,7 @@ public class WebSocketMessage {
   private final byte[] data;
   private final boolean isFinal;
 
-  public WebSocketMessage(OpCode opcode, boolean isFinal, byte[] data) {
+  public WebSocketMessage(final OpCode opcode, final boolean isFinal, final byte[] data) {
     this.opcode = opcode;
     this.data = data;
     this.isFinal = isFinal;

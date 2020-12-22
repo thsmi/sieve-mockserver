@@ -113,7 +113,7 @@ public class HttpResponse implements AutoCloseable {
     //  + "Content-length: " + body.length() +"\r\n"
     );
 
-    for (Entry<String, String> item : this.headers.entrySet())
+    for (final Entry<String, String> item : this.headers.entrySet())
       this.sendRaw(item.getKey()+": "+item.getValue()+"\r\n");
     
     this.sendRaw("\r\n");

@@ -6,7 +6,7 @@ public class HttpFileNotFound extends HttpException {
   
   private final String path;
   
-  public HttpFileNotFound(String path) {
+  public HttpFileNotFound(final String path) {
     super("404 File not Found");
     this.path = path;    
   }

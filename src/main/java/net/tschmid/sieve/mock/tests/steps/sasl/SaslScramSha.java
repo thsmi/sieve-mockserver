@@ -40,7 +40,7 @@ public abstract class SaslScramSha implements Step {
    * @return
    *   the child element's value or in case it does not exist the fallback value.
    */
-  protected String getChildValue(Element root, String name, final String fallback) {
+  protected String getChildValue(final Element root, final String name, final String fallback) {
 
     final NodeList children = root.getChildNodes();
 

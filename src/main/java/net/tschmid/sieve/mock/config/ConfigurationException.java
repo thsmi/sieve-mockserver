@@ -13,7 +13,12 @@ public class ConfigurationException extends Exception {
 
   private static final long serialVersionUID = 3394506758273129222L;
 
-  public ConfigurationException(String message) {
+  /**
+   * Creates a new instance
+   * @param message
+   *   the error message describing the configuration error.
+   */
+  public ConfigurationException(final String message) {
     super(message);
   }
 }

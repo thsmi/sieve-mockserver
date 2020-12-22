@@ -18,22 +18,34 @@ import net.tschmid.sieve.mock.http.endpoints.Endpoint;
 
 public class HttpChannel implements Runnable {
 
+  /** The connection to the remote socket */
   private final Socket connection;
+  /** The list with all configured endpoints */
   private final List<Endpoint> endpoints;
 
-  public HttpChannel(Socket connection, List<Endpoint> endpoints) {
+  /**
+   * Creates a new http channel
+   * @param connection
+   *   the incoming connection
+   * @param endpoints
+   *   a list with all configured endpoints.
+   */
+  public HttpChannel(final Socket connection, final List<Endpoint> endpoints) {
     this.connection = connection;
     this.endpoints = endpoints;
   }
 
   @Override
   public void run() {
-    try (HttpRequest request = new HttpRequest(connection); HttpResponse response = new HttpResponse(connection)) {
+    try (
+      final HttpRequest request = new HttpRequest(connection); 
+      final HttpResponse response = new HttpResponse(connection)) 
+    {
 
       request.getHeader();
 
       try {
-        for (Endpoint endpoint : this.endpoints) {
+        for (final Endpoint endpoint : this.endpoints) {
           if (!endpoint.canHandle(request))
             continue;
 
@@ -41,8 +53,8 @@ public class HttpChannel implements Runnable {
           return;
         }
       } catch (Exception ex) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw);
         ex.printStackTrace(pw);
 
         response

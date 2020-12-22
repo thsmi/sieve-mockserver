@@ -40,7 +40,7 @@ public class ActivityLog {
 
     System.out.println(message);
 
-    for (LogListener item : this.listeners) {
+    for (final LogListener item : this.listeners) {
       item.onLogMessage(message);
     }
   }
@@ -51,7 +51,7 @@ public class ActivityLog {
    * @param listener
    *   the listener to be registered.
    */
-  public void addListener(LogListener listener) {
+  public void addListener(final LogListener listener) {
     this.listeners.add(listener);
   }
 
@@ -61,7 +61,7 @@ public class ActivityLog {
    * @param listener
    *   the listener to be removed.
    */
-  public void removeListener(LogListener listener) {
+  public void removeListener(final LogListener listener) {
     this.listeners.remove(listener);
   }
 

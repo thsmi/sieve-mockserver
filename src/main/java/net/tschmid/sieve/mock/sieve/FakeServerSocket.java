@@ -27,7 +27,7 @@ public class FakeServerSocket {
 
   private final int port;
 
-  public FakeServerSocket(int port) {
+  public FakeServerSocket(final int port) {
     this.port = port;
   }
 
@@ -62,28 +62,30 @@ public class FakeServerSocket {
     // Preload the cert stuff...
 
     // Key store for your own private key and signing certificates.
-    InputStream keyStoreIS = new FileInputStream(keyStore);
+    try (
+      final InputStream keyStoreIS = new FileInputStream(keyStore);
+      final InputStream trustStoreIS = new FileInputStream(trustStore);)
+    {
+      final KeyStore ksKeys = KeyStore.getInstance("PKCS12");
+      ksKeys.load(keyStoreIS, keyStorePassphrase.toCharArray());
 
-    KeyStore ksKeys = KeyStore.getInstance("PKCS12");
-    ksKeys.load(keyStoreIS, keyStorePassphrase.toCharArray());
+      // KeyManager decides which key material to use.
+      final KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+      kmf.init(ksKeys, keyStorePassphrase.toCharArray());
 
-    // KeyManager decides which key material to use.
-    KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-    kmf.init(ksKeys, keyStorePassphrase.toCharArray());
+      // Trust store contains certificates of trusted certificate authorities.
+      // We'll need this to do client authentication.
+      
+      final KeyStore ksTrust = KeyStore.getInstance("JKS");
+      ksTrust.load(trustStoreIS, trustStorePassphrase.toCharArray());
 
-    // Trust store contains certificates of trusted certificate authorities.
-    // We'll need this to do client authentication.
-    InputStream trustStoreIS = new FileInputStream(trustStore);
+      // TrustManager decides which certificate authorities to use.
+      final TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+      tmf.init(ksTrust);
 
-    KeyStore ksTrust = KeyStore.getInstance("JKS");
-    ksTrust.load(trustStoreIS, trustStorePassphrase.toCharArray());
-
-    // TrustManager decides which certificate authorities to use.
-    TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
-    tmf.init(ksTrust);
-
-    this.sslContext = SSLContext.getInstance("TLS");
-    this.sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+      this.sslContext = SSLContext.getInstance("TLS");
+      this.sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+    }
 
     return this;
   }

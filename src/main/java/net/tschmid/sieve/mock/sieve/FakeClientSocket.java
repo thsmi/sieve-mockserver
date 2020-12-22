@@ -46,10 +46,10 @@ public class FakeClientSocket {
    */
   public void startSSL() throws IOException {
     // ... and convert the socket into an ssl socket...
-    InetSocketAddress remoteAddress = (InetSocketAddress) this.socket.getRemoteSocketAddress();
+    final InetSocketAddress remoteAddress = (InetSocketAddress) this.socket.getRemoteSocketAddress();
 
-    SSLSocketFactory sf = this.sslContext.getSocketFactory();
-    SSLSocket sock = (SSLSocket) (sf.createSocket(this.socket, remoteAddress.getHostName(), this.socket.getPort(), true));
+    final SSLSocketFactory sf = this.sslContext.getSocketFactory();
+    final SSLSocket sock = (SSLSocket) (sf.createSocket(this.socket, remoteAddress.getHostName(), this.socket.getPort(), true));
 
     // we are a server    
     sock.setUseClientMode(false);
@@ -60,10 +60,6 @@ public class FakeClientSocket {
      * sock.setEnabledCipherSuites(StrongSsl.intersection(
      * sock.getSupportedCipherSuites(), StrongSsl.ENABLED_CIPHER_SUITES));
      */
-
-    for (String item : sock.getSupportedProtocols()) {
-      System.out.println(item);
-    }
 
     sock.setEnabledProtocols(sock.getSupportedProtocols());
     sock.setEnabledCipherSuites(sock.getSupportedCipherSuites());

@@ -81,9 +81,9 @@ public class Configuration implements Configurable {
 
   public Configuration parseFlag(final String parameter) throws ConfigurationException {
 
-    String[] items = parameter.split("=", 2);
+    final String[] items = parameter.split("=", 2);
 
-    ConfigurationParameter key = ConfigurationParameter.getFlagByName(items[0]);
+    final ConfigurationParameter key = ConfigurationParameter.getFlagByName(items[0]);
 
     if (items.length == 1) {
       this.setFlag(key);
@@ -104,7 +104,7 @@ public class Configuration implements Configurable {
   public String toJson() {
     String result = "";
 
-    for ( Entry<ConfigurationParameter, String> item : this.flags.entrySet()){
+    for (final Entry<ConfigurationParameter, String> item : this.flags.entrySet()){
       if (!result.equals(""))
         result += ",\r\n";
       result += "  \""+item.getKey()+"\" : \""+item.getValue()+"\"";

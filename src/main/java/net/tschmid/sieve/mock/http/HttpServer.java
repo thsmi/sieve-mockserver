@@ -48,22 +48,22 @@ public class HttpServer implements Runnable {
    * Registers a new endpoint for the web server.
    * It is threads save and new endpoints can be added at any time.
    */
-  public HttpServer addEndpoint(Endpoint endpoint) {
+  public HttpServer addEndpoint(final Endpoint endpoint) {
     HttpServer.endpoints.add(endpoint);
     return this;
   }
 
-  public String getResource(String resource) throws IOException {
+  public String getResource(final String resource) throws IOException {
     return this.getStream(this.getClass().getResource(resource).openStream());
   }
 
-  public String getFile(String path) throws IOException {
+  public String getFile(final String path) throws IOException {
     return this.getStream(Files.newInputStream(Paths.get(path)));
   }
 
-  public String getStream(InputStream stream) throws IOException {
-    BufferedInputStream bis = new BufferedInputStream(stream);
-    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+  public String getStream(final InputStream stream) throws IOException {
+    final BufferedInputStream bis = new BufferedInputStream(stream);
+    final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     int result = bis.read();
     while (result != -1) {
       buf.write((byte) result);
@@ -76,7 +76,7 @@ public class HttpServer implements Runnable {
   @Override
   public void run() {
 
-    try (ServerSocket socket = new ServerSocket(port)) {
+    try (final ServerSocket socket = new ServerSocket(port)) {
 
       while (true) {
         (new Thread(new HttpChannel(socket.accept(), HttpServer.endpoints))).start();

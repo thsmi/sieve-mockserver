@@ -21,7 +21,7 @@ public class SieveTestException extends Exception {
    * @param string
    *   the exception message as string.
    */
-  public SieveTestException(String string) {
+  public SieveTestException(final String string) {
     super(string);
   }
 
