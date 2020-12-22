@@ -65,6 +65,11 @@ public class FakeServer {
     return this.serverSocket.getPort();
   }
 
+  /**
+   * Returns the server's configuration.
+   * @return
+   *   a reference to the configuration.
+   */
   public Configurable getFlags() {
     return this.flags;
   }
@@ -132,7 +137,7 @@ public class FakeServer {
 
     data = String.format(data, args);
 
-    if (this.getFlags().isEnabled(SIMULATE_FRAGMENTATION)) {
+    if (!this.getFlags().isEnabled(SIMULATE_FRAGMENTATION)) {
       socket.sendPacket(data);
       return this;
     }
@@ -148,6 +153,12 @@ public class FakeServer {
     return this;
   }
 
+  /**
+   * Waits for an incoming connection
+   * 
+   * @return 
+   *   a self reference.
+   */
   public FakeServer accept() throws Exception {
     if (this.socket != null)
       this.socket.close();
