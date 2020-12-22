@@ -1,8 +1,11 @@
-async function main() {
 
+let socket = null;
+
+function connect() {
   let socket = new WebSocket("ws://localhost:8080/log");
 
   socket.onopen = function (e) {
+    document.querySelector("#status").classList.add("connected");
     console.log("[open] Connection established");
     document.getElementById("txtOutput").value = "Connected to server\r\n";
   };
@@ -13,6 +16,8 @@ async function main() {
   };
 
   socket.onclose = function (event) {
+
+    document.querySelector("#status").classList.remove("connected");
 
     if (event.wasClean) {
       document.getElementById("txtOutput")
@@ -30,6 +35,32 @@ async function main() {
     alert(`[error] ${error.message}`);
   };
 
+  return socket;
+}
+
+
+async function start() {
+  if (socket === null || socket.readyState !== socket.OPEN)
+    socket = connect();
+
+
+  const value = document.getElementById("txtTest").value;
+
+  await fetch('test', {
+    method: 'PUT',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: value
+  });
+}
+
+
+async function main() {
+
+  socket = connect();
+
   document.getElementById("cbTemplates").addEventListener("change", async () => {
 
     const url = new URL("template", document.URL);
@@ -44,22 +75,14 @@ async function main() {
     });
 
     document.getElementById("txtTest").value = await (response.text());
+
+    start();
   });
 
   document.getElementById("btnStartTest").addEventListener("click", async () => {
-
-    const value = document.getElementById("txtTest").value;
-
-    await fetch('test', {
-      method: 'PUT',      
-      cache: 'no-cache', 
-      headers: {
-        'Content-Type': 'text/plain'
-      },
-      body: value
-    });
-
+    start();
   });
+
   document.getElementById("btnStopTest").addEventListener("click", async () => {
     await fetch('test', {method: 'DELETE', cache: 'no-cache'});
   });

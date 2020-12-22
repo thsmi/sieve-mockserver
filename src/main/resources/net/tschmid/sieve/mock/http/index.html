@@ -70,6 +70,21 @@ font-weight: normal;
 .indent {
   padding-left: 2em;
 }
+
+#status {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  padding: .35em .65em;
+  text-align: center;
+  border-radius: .25rem;
+}
+
+#status.connected {
+  background-color: #d1e7dd;
+  color: #0f5132;  
+}
+
+
     </style>
 
 </head>
@@ -91,8 +106,11 @@ font-weight: normal;
   <div class="sidenav">
   <h2>Mission Control</h2>
   <div>
+    <div id="status">Connected</div>
+  </div>  
+  <div>
     <button id="btnStartTest">Start Test</button><button id="btnStopTest">Stop Test</button><br>
-    <button id="btnStopServer">Shutdown Server</button>
+    <button id="btnStopServer">Shutdown Server</button>    
   </div>
 
   <button id="btnLog">Test</button>
