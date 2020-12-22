@@ -26,15 +26,26 @@ import net.tschmid.sieve.mock.http.exceptions.connection.ConnectionWriteExceptio
 
 public class HttpResponse implements AutoCloseable {
 
+  /** The http status message*/
   private String status = "200 OK";
+  /** The content type */
   private String contentType = "text/plain";
 
+  /** The buffered output stream */
   private final BufferedOutputStream out;
 
+  /** Tracks if the http headers are send */
   private boolean headerSend = false;
 
+  /** Caches the response headers */
   private final Map<String, String> headers = new HashMap<>();
 
+  /**
+   * Create a new instance.
+   * @param connection
+   *   the socket to which the outgoing data should be written.
+   * @throws IOException
+   */
   public HttpResponse(final Socket connection) throws IOException {
     this.out = new BufferedOutputStream(connection.getOutputStream());
   }
@@ -48,6 +59,13 @@ public class HttpResponse implements AutoCloseable {
     return this.headerSend; 
   }  
 
+  /**
+   * Returns the current http status which is the numeric 
+   * status code plus an optional message.
+   * 
+   * @return
+   *   the http status message
+   */
   public String getStatus() {
     return this.status;
   }
@@ -60,6 +78,13 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
+  /**
+   * Returns the currently ste content type.
+   * Default to plain/text in case is not set.
+   * 
+   * @return
+   *   the content type.
+   */
   public String getContentType() {
     return this.contentType;
   }
@@ -88,6 +113,16 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }  
 
+  /**
+   * Writes the data to the outgoing socket.
+   * 
+   * @param data
+   *   the data to be written.
+   * @return
+   *   a self reference.
+   * 
+   * @throws ConnectionWriteException
+   */
   public HttpResponse sendRaw(final byte[] data) throws ConnectionWriteException {
     try {
       this.out.write(data);
@@ -97,10 +132,29 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
+  /**
+   * Writes teh data to the outgoing socket.
+   * 
+   * @param data
+   *   the data to be written.
+   * @return
+   *   a self reference.
+   * 
+   * @throws ConnectionWriteException
+   */
   public HttpResponse sendRaw(final String data) throws ConnectionWriteException {
     return this.sendRaw(data.getBytes());
   }
 
+  /**
+   * Send the http headers.
+   * 
+   * @return
+   *   a self reference.
+   * 
+   * @throws HttpException
+   * @throws ConnectionWriteException
+   */
   public HttpResponse sendHeader() throws HttpException, ConnectionWriteException{
 
     if (this.isHeaderSend()) 
@@ -123,11 +177,17 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
-  public HttpResponse sendBody(final String body) throws ConnectionWriteException {
-    this.sendRaw(body);
-    return this;
-  }
 
+  /**
+   * Returns the stream as response.
+   * In case the headers are not yet send it will first send the headers.
+   * 
+   * @param stream
+   *   the data to be send.
+   * 
+   * @return
+   *   a self reference.
+   */
   public HttpResponse send(final InputStream stream) throws HttpException, ConnectionWriteException {
 
     try {
@@ -149,13 +209,23 @@ public class HttpResponse implements AutoCloseable {
     return this;
   }
 
+  /**
+   * Returns the string as response.
+   * In case the headers are not yet send it will first send the headers.
+   * 
+   * @param body
+   *   the data to be send.
+   * @return
+   *   a self reference
+   * @throws HttpException
+   * @throws ConnectionWriteException
+   */
   public HttpResponse send(final String body) throws HttpException, ConnectionWriteException {
 
     if (!this.isHeaderSend())
       this.sendHeader();
 
-    this.sendBody(body);
-
+    this.sendRaw(body);
     this.flush();
 
     return this;

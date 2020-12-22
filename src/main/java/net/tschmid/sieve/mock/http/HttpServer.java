@@ -53,14 +53,41 @@ public class HttpServer implements Runnable {
     return this;
   }
 
+  /**
+   * Reads data from a resource url.
+   * 
+   * @param resource
+   *   the url to the resource.
+   * @return
+   *   the resource content as string.
+   * @throws IOException
+   */
   public String getResource(final String resource) throws IOException {
     return this.getStream(this.getClass().getResource(resource).openStream());
   }
 
+  /**
+   * Reads data from a file.
+   * 
+   * @param path
+   *   the path the the file.
+   * @return
+   *   the file content as string.
+   * @throws IOException
+   */
   public String getFile(final String path) throws IOException {
     return this.getStream(Files.newInputStream(Paths.get(path)));
   }
 
+  /**
+   * Reads data form a stream.
+   * 
+   * @param stream
+   *   the stream to be read.
+   * @return 
+   *   the stream content as string.
+   * @throws IOException 
+   */
   public String getStream(final InputStream stream) throws IOException {
     final BufferedInputStream bis = new BufferedInputStream(stream);
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -76,7 +103,7 @@ public class HttpServer implements Runnable {
   @Override
   public void run() {
 
-    try (final ServerSocket socket = new ServerSocket(port)) {
+    try (ServerSocket socket = new ServerSocket(port)) {
 
       while (true) {
         (new Thread(new HttpChannel(socket.accept(), HttpServer.endpoints))).start();

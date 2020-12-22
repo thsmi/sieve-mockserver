@@ -25,16 +25,35 @@ public class FakeServerSocket {
   private ServerSocket server = null;
   private SSLContext sslContext = null;
 
+  /** The port the server is listening */
   private final int port;
 
+  /**
+   * Creates an new instance.
+   * @param port
+   *   the port which should be used for incoming requests.
+   */
   public FakeServerSocket(final int port) {
     this.port = port;
   }
 
+  /**
+   * The port on which the server is listening.
+   * @return
+   *   the port number.
+   */
   public int getPort() {
     return this.port;
   }  
 
+  /**
+   * Create a new socket. In case it is already connected. 
+   * The socket will be restarted.
+   * 
+   * @return
+   *   a self reference.
+   * @throws IOException
+   */
   public FakeServerSocket create() throws IOException {
     this.shutdown();
 
@@ -45,6 +64,12 @@ public class FakeServerSocket {
     return this;
   }
 
+  /**
+   * Shuts the socket down and closes any incoming connections.
+   * @return
+   *   a self reference.
+   * @throws IOException
+   */
   public FakeServerSocket shutdown() throws IOException {
     if (this.server == null)
       return this;
@@ -63,8 +88,8 @@ public class FakeServerSocket {
 
     // Key store for your own private key and signing certificates.
     try (
-      final InputStream keyStoreIS = new FileInputStream(keyStore);
-      final InputStream trustStoreIS = new FileInputStream(trustStore);)
+      InputStream keyStoreIS = new FileInputStream(keyStore);
+      InputStream trustStoreIS = new FileInputStream(trustStore);)
     {
       final KeyStore ksKeys = KeyStore.getInstance("PKCS12");
       ksKeys.load(keyStoreIS, keyStorePassphrase.toCharArray());
@@ -90,6 +115,13 @@ public class FakeServerSocket {
     return this;
   }
 
+  /**
+   * Accepts incoming connection. This call is blocking.
+   * 
+   * @return
+   *   the incoming connection.
+   * @throws Exception
+   */
   public FakeClientSocket accept() throws Exception {
     return new FakeClientSocket(server.accept(), this.sslContext);
   }

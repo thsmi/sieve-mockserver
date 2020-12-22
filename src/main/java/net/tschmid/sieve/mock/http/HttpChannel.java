@@ -38,8 +38,8 @@ public class HttpChannel implements Runnable {
   @Override
   public void run() {
     try (
-      final HttpRequest request = new HttpRequest(connection); 
-      final HttpResponse response = new HttpResponse(connection)) 
+      HttpRequest request = new HttpRequest(connection); 
+      HttpResponse response = new HttpResponse(connection)) 
     {
 
       request.getHeader();
