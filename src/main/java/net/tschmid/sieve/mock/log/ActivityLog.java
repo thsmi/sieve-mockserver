@@ -15,12 +15,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Implements an simple activity log which collects log message
+ * and dispatches them to listener.
+ */
 public class ActivityLog {
 
   private static ActivityLog instance = null;
 
   private final List<LogListener> listeners = Collections.synchronizedList(new LinkedList<>());
 
+  /**
+   * Creates a new instance. 
+   * It is protected as the class is a singleton.
+   */
   protected ActivityLog() {    
   }
 
@@ -37,14 +45,33 @@ public class ActivityLog {
     }
   }
 
+  /**
+   * Registers a new listener which consumes log messages.
+   * 
+   * @param listener
+   *   the listener to be registered.
+   */
   public void addListener(LogListener listener) {
     this.listeners.add(listener);
   }
 
+  /**
+   * Removes the listener and stops notifying it about log messages.
+   * 
+   * @param listener
+   *   the listener to be removed.
+   */
   public void removeListener(LogListener listener) {
     this.listeners.remove(listener);
   }
-  
+
+  /**
+   * Gets the current instance of the activity log.
+   * It is a singleton.
+   * 
+   * @return
+   *   the activity log instance.
+   */
   synchronized public static ActivityLog getInstance() {
     if (ActivityLog.instance == null)
       ActivityLog.instance = new ActivityLog();

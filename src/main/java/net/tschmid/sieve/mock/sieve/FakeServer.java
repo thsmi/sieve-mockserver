@@ -22,14 +22,14 @@ public class FakeServer {
   private FakeClientSocket socket;
   private final FakeServerSocket serverSocket;
 
-  public final Configurable flags;
+  private final Configurable flags;
 
   /**
    * Initializes a mock sever which runs on the sieve default port 4190.
    * 
    * @throws IOException
    */
-  public FakeServer(Configurable flags) throws IOException {
+  public FakeServer(final Configurable flags) throws IOException {
     this(4190, flags);
   }
 
@@ -39,11 +39,17 @@ public class FakeServer {
    * @param port the port which should be set
    * @throws IOException
    */
-  public FakeServer(int port, Configurable flags) throws IOException {
+  public FakeServer(final int port, final Configurable flags) throws IOException {
     this.serverSocket = new FakeServerSocket(port).create();
     this.flags = flags;
   }
 
+  /**
+   * Returns the server listening port.
+   * 
+   * @return
+   *   the port on which the server listens to incoming request.
+   */
   public int getPort() {
     return this.serverSocket.getPort();
   }
@@ -57,6 +63,12 @@ public class FakeServer {
     return this;
   }
 
+  /**
+   * Checks if the a secure connection is used
+   * 
+   * @return
+   *   true in case the connection is secure otherwise false.
+   */
   public boolean isSecure() {
     return socket.isSecure();
   }
@@ -74,10 +86,7 @@ public class FakeServer {
    * @throws Exception
    */
   public FakeServer waitFor(String expected, Object... args) throws Exception {
-
-    expected = String.format(expected, args);
-
-    assertTrue(socket.readLine(), expected);
+    assertTrue(socket.readLine(), String.format(expected, args));
     return this;
   }
 

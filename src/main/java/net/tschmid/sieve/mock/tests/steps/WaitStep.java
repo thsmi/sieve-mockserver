@@ -33,7 +33,6 @@ public class WaitStep implements Step {
     }
 
     context.getServer().waitFor(token);
-    return;
   }
   
 }
